@@ -44,6 +44,7 @@ The workspace name is `ros2_ws` on purpose. This course is about mastering ROS 2
 - Completed setup from `Installation-Guides/01 ROS 2 Jazzy Base Install and Verification.md`.
 - Terminal.
 - Text editor such as VS Code, nano, or another beginner-friendly editor.
+- Git, if the learner is syncing code between macOS and Ubuntu.
 - `colcon` build tools.
 - Python 3.
 
@@ -51,7 +52,9 @@ This lesson is low-storage friendly. It intentionally uses ROS 2 base, terminal 
 
 ## Authoring and VM Workflow
 
-This course may be edited on macOS with Codex or Claude while ROS 2 runs inside an Ubuntu VM. A shared folder, such as the Spice client folder shown in the author's setup, is useful for syncing lesson files and screenshots.
+This course may be edited on macOS with Codex or Claude while ROS 2 runs inside an Ubuntu VM. That is a good workflow, but the cleanest sync method for code is Git, not building directly from the shared folder.
+
+A shared folder, such as the Spice client folder shown in the author's setup, is useful for quick file transfer, screenshots, and reading notes. It should not be the main place where beginner ROS 2 workspaces are built.
 
 For this beginner lesson, keep the actual ROS 2 workspace inside Ubuntu:
 
@@ -61,7 +64,18 @@ For this beginner lesson, keep the actual ROS 2 workspace inside Ubuntu:
 
 Do not require learners to build the ROS 2 workspace inside the shared course folder. Shared folders are useful for course authoring, but `colcon build` is easier to troubleshoot from a normal Ubuntu home-folder workspace.
 
-**Recommended workflow:** edit lessons in the shared course repository, read them from Ubuntu if helpful, run ROS 2 commands in the Ubuntu terminal, and build practice packages in `~/ros2_ws`.
+**Recommended workflow:** edit lessons on macOS, save work with Git, pull or fetch the same work inside Ubuntu, run ROS 2 commands in the Ubuntu terminal, and build practice packages in `~/ros2_ws`.
+
+Install Git in Ubuntu if needed:
+
+```bash
+sudo apt update
+sudo apt install git
+```
+
+> **Teacher note**
+>
+> If a learner asks why Git is better than a shared folder for ROS 2 code, explain that Git gives a clear history and avoids VM shared-folder issues such as permission differences, slower file access, symlink behavior, and paths with spaces. The shared folder is still useful for quick transfers and screenshots.
 
 > **Teacher note**
 >

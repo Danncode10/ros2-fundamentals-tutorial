@@ -26,6 +26,7 @@ This setup installs:
 - Ubuntu 24.04-compatible ROS 2 Jazzy base packages
 - the `ros2` command
 - the `colcon` build tool
+- Git for syncing code and lesson files between your editing computer and Ubuntu
 - enough ROS 2 tools to start learning the fundamentals
 
 This is the low-storage beginner setup.
@@ -130,6 +131,60 @@ sudo apt install ros-dev-tools
 
 ---
 
+# Install Git for Code Sync
+
+Install Git:
+
+```bash
+sudo apt install git
+```
+
+Check that Git is installed:
+
+```bash
+git --version
+```
+
+Expected:
+
+```text
+git version ...
+```
+
+The exact version number does not need to match.
+
+## Why We Use Git
+
+If you are using macOS for editing with Codex or Claude and Ubuntu for ROS 2 testing, Git is the cleanest way to move code between the two systems.
+
+Recommended workflow:
+
+1. Edit lesson files or source examples on macOS.
+2. Save your work with Git by committing, stashing, or pushing to a remote repository.
+3. In Ubuntu, use Git to pull, fetch, or switch to the same work.
+4. Run ROS 2 commands and `colcon build` inside Ubuntu.
+
+This is better than building directly inside a shared VM folder because shared folders can sometimes have:
+
+- slower file access;
+- permission differences;
+- symlink behavior that confuses build tools;
+- paths with spaces that make terminal commands harder for beginners.
+
+> **Student note**
+>
+> The shared folder is still useful for screenshots, notes, and quick file transfer. But for ROS 2 workspaces, use Ubuntu's normal filesystem, such as `~/ros2_ws`.
+
+For this course, keep beginner ROS 2 practice workspaces inside Ubuntu:
+
+```bash
+~/ros2_ws
+```
+
+Do not build your main beginner ROS 2 workspace inside the shared folder.
+
+---
+
 # Source ROS 2
 
 Before using ROS 2 in a terminal, run:
@@ -189,6 +244,18 @@ Expected:
 /usr/bin/colcon
 ```
 
+Check Git:
+
+```bash
+git --version
+```
+
+Expected:
+
+```text
+git version ...
+```
+
 Check that ROS 2 help works:
 
 ```bash
@@ -244,6 +311,12 @@ Check that development tools are installed:
 
 ```bash
 dpkg -l | grep ros-dev-tools
+```
+
+Check that Git is installed:
+
+```bash
+dpkg -l | grep git
 ```
 
 Check all installed ROS Jazzy packages:
@@ -303,6 +376,7 @@ source /opt/ros/jazzy/setup.bash
 echo $ROS_DISTRO
 which ros2
 which colcon
+git --version
 ros2 --help
 ros2 pkg list | sed -n '1,20p'
 mkdir -p ~/test_ws/src
@@ -316,6 +390,7 @@ Success signs:
 - `echo $ROS_DISTRO` prints `jazzy`
 - `which ros2` points to `/opt/ros/jazzy/bin/ros2`
 - `which colcon` points to `/usr/bin/colcon`
+- `git --version` prints a Git version
 - `ros2 --help` prints ROS 2 command help
 - `ros2 pkg list` prints package names
 - `colcon build` finishes successfully
@@ -333,7 +408,9 @@ If all of these pass, your lightweight ROS 2 beginner setup is ready.
 | `/opt/ros/jazzy/setup.bash: No such file or directory` | ROS 2 Jazzy is not installed yet | Install `ros-jazzy-ros-base` |
 | `ros2: command not found` | ROS 2 is installed, but this terminal has not loaded it yet | Temporary fix: run `source /opt/ros/jazzy/setup.bash`. Permanent fix for new terminals: run `echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc` then `source ~/.bashrc` |
 | `colcon: command not found` | Development tools are missing | Run `sudo apt install ros-dev-tools` |
+| `git: command not found` | Git is not installed yet | Run `sudo apt install git` |
 | `Summary: 0 packages finished` | Empty workspace | This is normal for a test workspace |
+| `colcon build` behaves strangely in a shared folder | VM shared folders can have permission, symlink, path, or performance differences | Build ROS 2 workspaces in Ubuntu's home folder, such as `~/ros2_ws` |
 | `BrokenPipeError` after using `head` | `head` closed the output early | Use `sed -n '1,20p'` instead |
 
 ---
