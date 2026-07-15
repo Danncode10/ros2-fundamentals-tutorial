@@ -195,6 +195,12 @@ Generated cheat sheets:
 Lessons/cheat-sheet/
 ```
 
+Generated quizzes:
+
+```text
+Lessons/quizzes/
+```
+
 Lesson plan filename format:
 
 ```text
@@ -211,6 +217,12 @@ Cheat sheet filename format:
 
 ```text
 <Lesson Number> <Title> Cheat Sheet.md
+```
+
+Quiz filename format:
+
+```text
+<Lesson Number> <Title> Quiz.md
 ```
 
 Use the lesson number exactly as provided by the user when creating filenames.
