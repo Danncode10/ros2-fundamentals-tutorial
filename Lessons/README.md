@@ -173,6 +173,39 @@ If storage is tight, do not install `ros-jazzy-desktop` at the start. Begin smal
 
 ---
 
+# Mac Host and Ubuntu VM Workflow
+
+The course author may write lessons and course files on macOS using Codex or Claude, while running ROS 2 inside an Ubuntu VM.
+
+A shared folder, such as a Spice client folder, is useful for syncing course notes, lesson files, screenshots, and examples between macOS and Ubuntu. This is a good authoring workflow.
+
+For beginner ROS 2 practice, keep the actual ROS 2 workspace simple:
+
+```bash
+~/ros2_ws
+```
+
+Why:
+
+- ROS 2 commands are run inside Ubuntu.
+- `colcon build` generates `build/`, `install/`, and `log/` folders.
+- VM shared folders can sometimes have slower file access, permission differences, or symlink behavior that confuses beginner troubleshooting.
+- Shared folder paths often contain spaces, which makes terminal commands harder for beginners.
+
+Recommended workflow:
+
+| Work | Best place |
+|---|---|
+| Edit course Markdown with Codex or Claude | macOS shared project folder |
+| Read the same files in Ubuntu | Spice or VM shared folder |
+| Run ROS 2 commands | Ubuntu terminal |
+| Build beginner ROS 2 workspaces | `~/ros2_ws` inside Ubuntu |
+| Save polished course examples | Copy or commit them back into the course repository when ready |
+
+This keeps the course easy to edit while keeping ROS 2 practice clean and predictable.
+
+---
+
 # Phase 0: Orientation
 
 ## Section 0.1: What ROS 2 Is
@@ -231,7 +264,8 @@ Topics:
 
 Practice:
 
-- Install the lightweight ROS 2 Jazzy base setup
+- Read and complete the existing installation guide:
+  - `Installation-Guides/01 ROS 2 Jazzy Base Install and Verification.md`
 - Check ROS 2 installation
 - Run a built-in ROS 2 demo
 - Understand environment variables at a beginner level
@@ -253,8 +287,10 @@ Expected skill:
 Workspace name:
 
 ```bash
-thesis_ws
+ros2_ws
 ```
+
+This name is intentionally general. The learner is here to master ROS 2 first, not to start thesis-specific work too early.
 
 Topics:
 
@@ -266,7 +302,8 @@ Topics:
 
 Rover connection:
 
-- `thesis_ws` becomes the home of all rover ROS 2 code.
+- `ros2_ws` becomes the learning workspace for ROS 2 fundamentals.
+- Later, after the fundamentals are comfortable, the same workspace skills will be used to build the agricultural rover software stack.
 
 Practice:
 
@@ -1241,8 +1278,8 @@ By the end, you should be able to explain:
 
 Outcome:
 
-- You install only the lightweight ROS 2 base setup
-- You can create `thesis_ws`
+- You complete the existing lightweight ROS 2 base installation guide
+- You can create `ros2_ws`
 - You can create `rover_core`
 - You can build and source your workspace
 
@@ -1339,7 +1376,7 @@ Each module should produce something visible, runnable, or explainable. This pre
 
 | Module | Required deliverable |
 |---|---|
-| Module 1 | Working ROS 2 environment, `thesis_ws`, `src/`, successful empty `colcon build` |
+| Module 1 | Working ROS 2 environment, `ros2_ws`, `src/`, successful empty `colcon build` |
 | Module 2 | Runnable `rover_heartbeat` node in minimal and OOP versions |
 | Module 3 | Screenshots or notes proving `ros2 node` and `rqt_graph` were used |
 | Module 4 | Working publisher/subscriber pair, topic echo output, recorded and replayed bag |
