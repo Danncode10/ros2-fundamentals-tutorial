@@ -157,6 +157,26 @@ Include:
 - Mention heavy tools only as future work unless the roadmap clearly says otherwise.
 - Prefer tiny working examples before larger abstractions.
 - Make it possible for the learner to test whether they succeeded.
+- Use Mermaid Markdown diagrams when they make a concept easier to visualize, especially for ROS 2 node graphs, topic flow, service request/response flow, workspace structure, launch relationships, or lesson sequence. Do not force Mermaid into every lesson.
+- Keep Mermaid diagrams simple and compatible with GitHub and VS Code Markdown preview. Prefer `flowchart LR`, `flowchart TD`, or `sequenceDiagram`. Avoid advanced Mermaid features, custom styling, emojis, HTML tags, special symbols, and complicated punctuation in node IDs.
+- In Mermaid flowcharts, use plain ASCII node IDs such as `imu_node`, `motor_node`, and `diagnostics_node`. Put readable text in quoted labels, such as `imu_node["IMU node"]`.
+- Do not put raw parentheses, slashes, colons, or commas inside unquoted Mermaid labels. If punctuation is needed, quote the full label.
+- Always explain the diagram in beginner-friendly prose before or after it. The diagram should support the lesson, not replace the explanation.
+
+## Mermaid Verification Loop
+
+If the generated lesson includes any `mermaid` fenced code blocks, run the `.claude/agents/mermaid-markdown-verifier.md` agent before finishing. If subagents are unavailable, perform this same review pass manually:
+
+1. Extract every Mermaid block from the Markdown.
+2. Check each diagram for GitHub/VS Code-safe syntax:
+   - fenced block starts with exactly ```` ```mermaid ```` and ends with ```` ``` ````;
+   - graph type is supported, preferably `flowchart LR`, `flowchart TD`, or `sequenceDiagram`;
+   - flowchart node IDs are simple ASCII words with letters, numbers, and underscores;
+   - labels with spaces or punctuation are wrapped in quotes inside brackets;
+   - arrows use common Mermaid forms such as `-->`, `-->|label|`, or `-.->`;
+   - no unmatched brackets, quotes, or code fences.
+3. Fix any Mermaid issue found and repeat the review once more.
+4. If a diagram still seems risky, replace it with a plain Markdown list or table instead of leaving broken Mermaid in the file.
 
 ## Completion Response
 
@@ -166,3 +186,4 @@ After creating the file, report:
 - whether a lesson plan was used
 - the created file path
 - any assumptions made
+- whether Mermaid diagrams were included and verified, or not used
