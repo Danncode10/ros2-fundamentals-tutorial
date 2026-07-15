@@ -146,11 +146,12 @@ This is only a teaching sketch. The actual rover graph will change as the learne
 
 ## Simple Exercise or Mini-Project
 
-Create a paper or digital diagram called `rover_software_graph`.
+Create a paper or digital Dann ROS 2 Graph for a **Tiny Distance Stop System**.
 
-- Task: Draw at least five rover nodes and connect them with labeled communication paths.
-- Success criteria: The diagram includes at least two publishers, two subscribers, one diagnostics service, two parameters, and one note explaining that launch files will eventually start multiple nodes together.
-- Hint: Start with the rover jobs first. Use names like `imu_node`, `motor_node`, `arm_controller_node`, `diagnostics_node`, and `navigation_node`, then draw arrows showing who sends information to whom.
+- Task: Design a tiny rover system where a distance sensor helps the rover decide when to stop.
+- Required nodes: `distance_sensor_node`, `stop_controller_node`, `motor_node`, and `tiny_rover_launch`.
+- Success criteria: The learner adds topics, arrows, and labels using the Dann ROS 2 Graph rules, and can explain which node senses distance, which node decides what to do, and which node receives the motor command.
+- Hint: Give only the system name and nodes. Let the learner design the connections like a robotics engineer.
 
 ## Verification Checks
 

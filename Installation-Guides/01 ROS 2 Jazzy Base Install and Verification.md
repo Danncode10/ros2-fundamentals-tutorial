@@ -331,7 +331,7 @@ If all of these pass, your lightweight ROS 2 beginner setup is ready.
 |---|---|---|
 | `E: Unable to locate package ros-jazzy-ros-base` | ROS 2 apt repository is missing | Add the ROS 2 repository, then run `sudo apt update` |
 | `/opt/ros/jazzy/setup.bash: No such file or directory` | ROS 2 Jazzy is not installed yet | Install `ros-jazzy-ros-base` |
-| `ros2: command not found` | ROS 2 is not sourced | Run `source /opt/ros/jazzy/setup.bash` |
+| `ros2: command not found` | ROS 2 is installed, but this terminal has not loaded it yet | Temporary fix: run `source /opt/ros/jazzy/setup.bash`. Permanent fix for new terminals: run `echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc` then `source ~/.bashrc` |
 | `colcon: command not found` | Development tools are missing | Run `sudo apt install ros-dev-tools` |
 | `Summary: 0 packages finished` | Empty workspace | This is normal for a test workspace |
 | `BrokenPipeError` after using `head` | `head` closed the output early | Use `sed -n '1,20p'` instead |

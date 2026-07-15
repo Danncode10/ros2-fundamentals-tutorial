@@ -60,7 +60,7 @@ You only need:
 
 > **Student note**
 >
-> A service is not the node itself. It is a way for nodes to communicate when one node asks for something and another node responds. A beginner way to remember it is: a service is like a question or button that only does something when another node requests it.
+> A service is not the node itself. It is a way for nodes to communicate when one node asks for something and another node responds. The **service request** is the question or command being sent, like "Are you healthy?" The **service response** is the answer that comes back, like "Yes, motor control is running." A beginner way to remember it is: a service is like a question or button that only does something when another node requests it.
 
 **Parameter:** A setting that can tune a node's behavior. For example, a motor node might have a `max_speed` parameter, or a diagnostics node might have a `diagnostic_rate` parameter. Parameters are useful because you can adjust behavior without rewriting the whole program.
 
@@ -322,31 +322,28 @@ Use this checklist to verify your drawing:
 
 ## Simple Exercise or Mini-Project
 
-Create your own `rover_software_graph`.
+Create a Dann ROS 2 Graph for a **Tiny Distance Stop System**.
 
 **Task:**
 
-Draw a future rover software graph with at least five nodes.
+Design a tiny rover system where a distance sensor helps the rover decide when to stop.
 
 **Requirements:**
 
-- Include `imu_node`.
+- Include `distance_sensor_node`.
+- Include `stop_controller_node`.
 - Include `motor_node`.
-- Include `diagnostics_node`.
-- Include at least two other rover nodes.
-- Draw arrows showing how information moves.
-- Label at least one arrow as a topic.
-- Label at least one connection as a service.
-- Add two possible parameters, such as `max_speed` and `diagnostic_rate`.
+- Include `tiny_rover_launch`.
+- Add the topics, arrows, and labels yourself using the Dann ROS 2 Graph rules.
 
 **Success criteria:**
 
-- Someone else can look at your drawing and understand which node senses, which node controls, and which node checks health.
+- Someone else can look at your drawing and understand which node senses distance, which node decides what to do, and which node receives the motor command.
 - You can explain the drawing in under two minutes.
 
 **Optional hint:**
 
-Start with the physical rover jobs first. Then turn each job into a possible ROS 2 node.
+Think like a robotics engineer: first identify the jobs, then decide which information must move between them.
 
 ## Recap
 

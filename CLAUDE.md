@@ -184,6 +184,12 @@ Generated actual lessons:
 Lessons/lessons/
 ```
 
+Generated cheat sheets:
+
+```text
+Lessons/cheat-sheet/
+```
+
 Lesson plan filename format:
 
 ```text
@@ -194,6 +200,12 @@ Actual lesson filename format:
 
 ```text
 <Lesson Number> <Title>.md
+```
+
+Cheat sheet filename format:
+
+```text
+<Lesson Number> <Title> Cheat Sheet.md
 ```
 
 Use the lesson number exactly as provided by the user when creating filenames.
