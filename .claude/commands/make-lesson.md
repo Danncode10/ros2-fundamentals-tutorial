@@ -67,6 +67,10 @@ Explain beginner vocabulary before using it heavily.
 
 Give a plain-language explanation of the core concept.
 
+> **Beginner reminder**
+>
+> Add a short clarification if this concept is easy to misunderstand.
+
 ## Step 1: <Action>
 
 Explain the action.
@@ -131,6 +135,7 @@ Include:
 - requirements
 - success criteria
 - optional hint
+- what the learner should decide on their own
 
 ## Recap
 
@@ -150,6 +155,20 @@ Include:
 - Write as a complete beginner tutorial.
 - Be patient, concrete, and practical.
 - Explain jargon the first time it appears.
+- For each important new term, explain it in this order when useful:
+  1. plain meaning;
+  2. what it is not;
+  3. tiny rover example;
+  4. beginner-safe analogy or student note.
+- Use callouts to protect the learner from common wrong mental models:
+
+```markdown
+> **Student note**
+>
+> <short clarification in beginner language>
+```
+
+- When showing command output, explain whether blank output is normal, what "good" looks like, and what mistake the output might reveal.
 - Include exact commands and expected success signs.
 - Include a simple exercise or mini-project every time.
 - Keep early lessons low-storage friendly.
@@ -157,6 +176,20 @@ Include:
 - Mention heavy tools only as future work unless the roadmap clearly says otherwise.
 - Prefer tiny working examples before larger abstractions.
 - Make it possible for the learner to test whether they succeeded.
+- Design the mini-project as a small system the learner can reason about. Give the system name, goal, required parts, and success criteria. Do not always give the full completed design; leave one meaningful part for the learner to decide.
+- Prefer simple beginner systems such as "Tiny Distance Stop System", "One Sensor Publisher", "Motor Command Listener", or "Diagnostics Ask-And-Answer" over broad rover-wide systems.
+- In activities, ask the learner to explain their design in one or two minutes. This proves understanding better than copying a completed diagram.
+- Improve Markdown readability for GitHub and VS Code preview. Use bold labels for vocabulary terms, important note labels, and key ideas, such as `**Topic:**`, `**Student note**`, or `**Success sign:**`.
+- Use Markdown blockquote callouts for student notes, important reminders, and gentle future-topic pacing notes:
+
+```markdown
+> **Student note**
+>
+> <short beginner-friendly note>
+```
+
+- Do not rely on colored text, raw HTML styling, or custom Markdown extensions for lesson readability because they may not render consistently in GitHub or VS Code.
+- Use indentation, short paragraphs, bullets, and tables to make lessons easier to scan, especially in `New Words`, `Common Mistakes`, and `Troubleshooting`.
 - Respect student pacing. If the lesson mentions a topic that belongs later in `Lessons/README.md`, gently say that it will be learned later, give only a short beginner-safe summary, and return to the current lesson goal.
 - Use the `.claude/agents/student-pacing-teacher.md` agent when the lesson touches advanced or future topics. If subagents are unavailable, manually apply the same pacing rule.
 - Never write as if every learner should understand immediately. Use reassuring language such as "You do not need to master this yet" or "This will make more sense after we practice it."
@@ -165,6 +198,14 @@ Include:
 - In Mermaid flowcharts, use plain ASCII node IDs such as `imu_node`, `motor_node`, and `diagnostics_node`. Put readable text in quoted labels, such as `imu_node["IMU node"]`.
 - Do not put raw parentheses, slashes, colons, or commas inside unquoted Mermaid labels. If punctuation is needed, quote the full label.
 - Always explain the diagram in beginner-friendly prose before or after it. The diagram should support the lesson, not replace the explanation.
+- After each diagram, include a short "How to read this" note or legend when the diagram introduces symbols, arrows, or relationships.
+- For ROS 2 system architecture diagrams, prefer a consistent visual convention:
+  - read and follow `Lessons/Dann ROS 2 Graph.md`;
+  - call the course convention a **Dann ROS 2 Graph** when teaching beginner ROS 2 architecture diagrams;
+  - explain that it is a course drawing convention, not an official ROS 2 standard name;
+  - include a short legend explaining the shapes and arrow styles.
+- For advanced ROS 2 lessons, use optional Dann ROS 2 Graph symbols from `Lessons/Dann ROS 2 Graph.md` only when the lesson actually needs them.
+- Do not force the ROS 2 node/topic/service convention onto non-ROS diagrams. For non-ROS visuals, choose the simplest Mermaid diagram type that explains the idea clearly.
 
 ## Student Pacing Loop
 

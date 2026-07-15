@@ -4,7 +4,9 @@
 
 By the end of this lesson, you will be able to explain what ROS 2 is, why robot software is often split into small programs, and how your future rover software can be drawn as a simple communication graph.
 
-You will not install ROS 2 or write code yet. This lesson is about getting oriented before the commands begin.
+> **Important**
+>
+> You will not install ROS 2 or write code yet. This lesson is about getting oriented before the commands begin.
 
 ## Why This Matters
 
@@ -12,7 +14,9 @@ ROS 2 can feel confusing at first because it introduces many new words: node, to
 
 Before learning those one by one, it helps to understand the main idea:
 
-A robot is usually not one giant program. A robot is usually a team of smaller programs that share information.
+> **Main idea**
+>
+> A robot is usually not one giant program. A robot is usually a team of smaller programs that share information.
 
 For your agricultural rover, one program might read an IMU sensor, another might command motors, another might answer diagnostic questions, and another might start everything together. ROS 2 gives these programs a common way to find each other and communicate.
 
@@ -26,29 +30,51 @@ You only need:
 - No prior ROS 2 experience.
 - No ROS 2 installation yet.
 
-Storage note: this lesson is very low-storage friendly. You do not need Gazebo, RViz, Navigation2, MoveIt, Docker, YOLO, AI packages, simulation worlds, or a full desktop robotics stack.
+> **Storage note**
+>
+> This lesson is very low-storage friendly. You do not need Gazebo, RViz, Navigation2, MoveIt, Docker, YOLO, AI packages, simulation worlds, or a full desktop robotics stack.
 
 ## New Words
 
-ROS 2: A robotics software framework. It helps robot programs communicate, organize behavior, and be inspected while they run.
+**ROS 2:** A robotics software framework. That means it gives you tools and patterns for building robot software. ROS 2 does not magically make the robot intelligent by itself. Instead, it helps your robot programs communicate, start in an organized way, and be inspected while they run.
 
-Node: One small ROS 2 program with a focused job. For example, an IMU node might read orientation data.
+**Node:** One small ROS 2 program with a focused job. A node should not try to do everything. For example, an `imu_node` might read orientation data, while a `motor_node` might listen for movement commands. Splitting work this way makes the rover easier to build, test, and debug.
 
-Topic: A named stream of messages. Topics are useful for data that keeps flowing, such as sensor readings.
+**Topic:** A named communication channel where messages can flow from one node to another. You can think of a topic like a labeled radio channel. One node sends messages on that channel, and any node interested in that information can listen. Topics are useful for information that updates again and again, such as IMU readings, motor commands, or sensor data.
 
-Publisher: A node that sends messages on a topic.
+> **Student note**
+>
+> A topic is basically where messages are sent. For example, a distance sensor can keep giving distance data again and again, and each new distance reading is a message sent through that topic.
 
-Subscriber: A node that receives messages from a topic.
+**Message:** A piece of data sent through ROS 2. A message might contain something simple, like a number, or something more structured, like sensor readings. You do not need to design custom messages yet. For now, just remember that nodes exchange information by sending messages.
 
-Service: A request-and-response connection. One node asks for something, and another node replies.
+**Publisher:** A node that sends messages on a topic. For example, an `imu_node` could publish orientation messages on a topic. Publishing means, "I have information, and I am sending it out."
 
-Parameter: A setting that can tune a node's behavior, such as a speed limit or update rate.
+> **Student note**
+>
+> A publisher is a node, or part of a node, that sends data or messages into a topic. For example, a distance sensor node can act as a publisher by repeatedly sending distance readings.
 
-Launch file: A file that starts several ROS 2 programs together.
+**Subscriber:** A node that receives messages from a topic. For example, a `navigation_node` might subscribe to IMU data so it can know how the rover is tilted or turning. Subscribing means, "I want to listen to that information."
 
-Distributed robotics software: Robot software made from multiple cooperating programs. Those programs may run in different processes, and later they may even run on different computers.
+**Service:** A request-and-response connection. One node asks for something, and another node replies. This is different from a topic because it is not usually a constant stream. For example, a `diagnostics_node` might ask a `motor_node`, "Are you healthy?" and the `motor_node` sends back an answer.
 
-You do not need to master all of these words today. For now, focus on the simple idea: ROS 2 helps small robot programs communicate.
+> **Student note**
+>
+> A service is not the node itself. It is a way for nodes to communicate when one node asks for something and another node responds. The **service request** is the question or command being sent, like "Are you healthy?" The **service response** is the answer that comes back, like "Yes, motor control is running." A beginner way to remember it is: a service is like a question or button that only does something when another node requests it.
+
+**Parameter:** A setting that can tune a node's behavior. For example, a motor node might have a `max_speed` parameter, or a diagnostics node might have a `diagnostic_rate` parameter. Parameters are useful because you can adjust behavior without rewriting the whole program.
+
+> **Student note**
+>
+> A parameter is kind of like an argument in a programming function because it changes how something behaves. In ROS 2, it is more like a built-in setting for a node, such as `max_speed` for a `motor_node`.
+
+**Launch file:** A file that starts several ROS 2 programs together. Later, instead of opening many terminals and starting each node one by one, a launch file can help start the rover system in a more organized way.
+
+**Distributed robotics software:** Robot software made from multiple cooperating programs. In beginner terms, this means the rover is not controlled by one giant script. It is controlled by several smaller programs that share information. Later, those programs may even run on different computers, but you do not need that advanced setup yet.
+
+> **Beginner reminder**
+>
+> You do not need to master all of these words today. For now, focus on the simple idea: ROS 2 helps small robot programs communicate.
 
 ## Big Idea
 
@@ -56,23 +82,64 @@ Imagine your rover as a team.
 
 The IMU node watches orientation. The motor node listens for movement commands. The diagnostics node answers questions like "Are you healthy?" The navigation node may later decide where the rover should go.
 
+> **Quick meaning**
+>
+> IMU means **Inertial Measurement Unit**. It is a sensor that helps a robot sense motion, tilt, and turning. For this lesson, you can think of it as the rover's "balance and movement sensor."
+
 Each node has one job. ROS 2 helps the nodes pass messages instead of forcing everything into one large file.
 
-Here is a simple teaching sketch:
+Here is a simple teaching sketch. This kind of drawing is often called a **ROS 2 node graph**, **ROS graph**, or **system architecture sketch**.
+
+In this course, we will use a beginner-friendly version called a **Dann ROS 2 Graph**. That is not an official ROS 2 standard name. It is our course rule for drawing ROS 2 systems clearly while you are learning. The full diagram rulebook is in [Dann ROS 2 Graph](../Dann%20ROS%202%20Graph.md).
+
+Robotics engineers use diagrams like this to plan which programs exist, what data moves between them, and which parts of the robot system are connected before writing code.
 
 ```mermaid
 flowchart LR
-  imu_node["IMU node"] -->|orientation data| navigation_node["Navigation node"]
-  navigation_node -->|motor command| motor_node["Motor node"]
-  arm_controller_node["Arm controller node"] -->|arm command| motor_node
-  diagnostics_node["Diagnostics node"] -.->|status request| imu_node
-  diagnostics_node -.->|status request| motor_node
-  launch_file["Launch file"] -.->|starts| imu_node
+  imu_node["IMU node"]
+  navigation_node["Navigation node"]
+  motor_node["Motor node"]
+  arm_controller_node["Arm controller node"]
+  diagnostics_node["Diagnostics node"]
+  launch_file[["Launch file"]]
+  orientation_topic((("Continuous topic: orientation data")))
+  motor_command_topic(("Topic: motor command"))
+  arm_command_topic(("Topic: arm command"))
+
+  imu_node -->|publishes| orientation_topic
+  orientation_topic -->|subscribes| navigation_node
+  navigation_node -->|publishes| motor_command_topic
+  motor_command_topic -->|subscribes| motor_node
+  arm_controller_node -->|publishes| arm_command_topic
+  arm_command_topic -->|subscribes| motor_node
+
+  diagnostics_node -.->|service request| imu_node
+  imu_node -.->|service response| diagnostics_node
+  diagnostics_node -.->|service request| motor_node
+  motor_node -.->|service response| diagnostics_node
+
+  launch_file -.->|starts| imu_node
   launch_file -.->|starts| motor_node
   launch_file -.->|starts| diagnostics_node
 ```
 
 This diagram is not the final rover design. It is a beginner map. You will build the real understanding piece by piece in later lessons.
+
+> **How to read this graph**
+>
+> Rectangles are nodes. A double rectangle is a launch file. Circles are topics. A double circle is a topic that usually carries continuous data, such as sensor readings. Solid arrows show topic message flow. Dotted arrows show non-topic relationships, such as a launch file starting nodes or a diagnostics node asking for a service response.
+
+> **Dann ROS 2 Graph rules**
+>
+> Use **rectangles** for nodes because nodes are programs. Use a **double rectangle** for launch files because they start other pieces. Use **circles** for topics because topics are message channels. Use a **double circle** for topics that usually carry continuous data, such as sensor readings. Use **solid arrows** when messages flow through a topic. Use **dotted arrows** for relationships that are not topic streams, such as service requests, service responses, or launch files starting nodes. Label every arrow with the action, such as `publishes`, `subscribes`, `service request`, `service response`, or `starts`.
+
+> **Student note**
+>
+> The launch file starts nodes, but it is not sending sensor data. The IMU node publishes orientation data into a topic, and another node can subscribe to that topic. The diagnostics node is not "a service"; it is a node that can use services to ask another node a question and get one response.
+
+> **Engineering habit**
+>
+> Making diagrams like this is a real robotics engineering habit. A good ROS 2 graph helps you separate **programs** from **data channels** from **request-response actions**, so the robot does not become one giant confusing script.
 
 ## Step 1: Start With The Rover Jobs
 
@@ -87,9 +154,9 @@ Example rover jobs:
 - Later, decide where to navigate.
 - Later, process camera or vision data.
 
-The key question is:
-
-Which job should be handled by which small program?
+> **Key question**
+>
+> Which job should be handled by which small program?
 
 A first draft could look like this:
 
@@ -109,11 +176,13 @@ The `imu_node` produces orientation data. That makes it a publisher.
 
 The `navigation_node` may need orientation data to make decisions. That makes it a subscriber to the IMU data.
 
-In plain English:
+> **In plain English**
+>
+> The IMU node publishes orientation data, and the navigation node subscribes to it.
 
-The IMU node publishes orientation data, and the navigation node subscribes to it.
-
-You do not need to know the exact message type yet. That comes later. For now, just understand the direction of information.
+> **Beginner reminder**
+>
+> You do not need to know the exact message type yet. That comes later. For now, just understand the direction of information.
 
 ## Step 3: Decide Who Receives Commands
 
@@ -139,7 +208,9 @@ The motor node replies, "Yes, motor control is running."
 
 That kind of ask-and-answer pattern is called a service in ROS 2.
 
-You do not need to build a service yet. Just remember:
+> **Just remember**
+>
+> You do not need to build a service yet.
 
 - Topics are good for ongoing streams of messages.
 - Services are good for one request and one response.
@@ -160,11 +231,15 @@ A launch file starts multiple pieces together.
 
 For example, instead of manually starting the IMU node, motor node, and diagnostics node one by one, a launch file can start them as a group.
 
-That's a good question if you are wondering how launch files work. We will study launch files properly later, so you do not need to master them yet. For now, the short version is: a launch file is a convenient way to start several ROS 2 programs together.
+> **Future topic**
+>
+> That's a good question if you are wondering how launch files work. We will study launch files properly later, so you do not need to master them yet. For now, the short version is: a launch file is a convenient way to start several ROS 2 programs together.
 
 ## Step 6: Preview Future ROS 2 Checks
 
-You do not need to run these commands in this lesson. They are shown so you can recognize how ROS 2 will let you inspect your robot later.
+> **Preview only**
+>
+> You do not need to run these commands in this lesson. They are shown so you can recognize how ROS 2 will let you inspect your robot later.
 
 ```bash
 ros2 node list
@@ -190,13 +265,15 @@ ros2 param list
 
 This will list visible parameters.
 
-If these commands do not work on your computer yet, that is expected. ROS 2 installation starts in the next phase.
+> **Expected**
+>
+> If these commands do not work on your computer yet, that is expected. ROS 2 installation starts in the next phase.
 
 ## Minimal Code
 
-There is no code in this lesson.
-
-That is intentional. Before writing ROS 2 programs, you are building the mental model that will make the code easier to understand later.
+> **No code yet**
+>
+> There is no code in this lesson. That is intentional. Before writing ROS 2 programs, you are building the mental model that will make the code easier to understand later.
 
 ## Run It
 
@@ -219,7 +296,7 @@ Use this checklist to verify your drawing:
 - At least two possible parameters are written somewhere near the graph.
 - There is a note that launch files will later start multiple nodes together.
 
-Expected success signs:
+**Expected success signs:**
 
 - You can point to one node and explain its job.
 - You can point to one arrow and explain what might travel along it.
@@ -245,31 +322,28 @@ Expected success signs:
 
 ## Simple Exercise or Mini-Project
 
-Create your own `rover_software_graph`.
+Create a Dann ROS 2 Graph for a **Tiny Distance Stop System**.
 
-Task:
+**Task:**
 
-Draw a future rover software graph with at least five nodes.
+Design a tiny rover system where a distance sensor helps the rover decide when to stop.
 
-Requirements:
+**Requirements:**
 
-- Include `imu_node`.
+- Include `distance_sensor_node`.
+- Include `stop_controller_node`.
 - Include `motor_node`.
-- Include `diagnostics_node`.
-- Include at least two other rover nodes.
-- Draw arrows showing how information moves.
-- Label at least one arrow as a topic.
-- Label at least one connection as a service.
-- Add two possible parameters, such as `max_speed` and `diagnostic_rate`.
+- Include `tiny_rover_launch`.
+- Add the topics, arrows, and labels yourself using the Dann ROS 2 Graph rules.
 
-Success criteria:
+**Success criteria:**
 
-- Someone else can look at your drawing and understand which node senses, which node controls, and which node checks health.
+- Someone else can look at your drawing and understand which node senses distance, which node decides what to do, and which node receives the motor command.
 - You can explain the drawing in under two minutes.
 
-Optional hint:
+**Optional hint:**
 
-Start with the physical rover jobs first. Then turn each job into a possible ROS 2 node.
+Think like a robotics engineer: first identify the jobs, then decide which information must move between them.
 
 ## Recap
 

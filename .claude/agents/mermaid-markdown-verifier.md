@@ -34,6 +34,13 @@ For flowcharts:
 - Keep labels short.
 - Avoid custom styling, HTML tags, emojis, special symbols, and advanced Mermaid features.
 
+For ROS 2 system architecture diagrams:
+
+- Read and follow `Lessons/Dann ROS 2 Graph.md`.
+- Make sure the lesson explains that Dann ROS 2 Graph is a course convention, not an official ROS 2 standard name.
+- Make sure the surrounding lesson explains the legend in beginner-friendly prose.
+- Do not apply this ROS 2 convention to unrelated diagrams. Non-ROS diagrams should use whatever simple Mermaid structure best explains the idea.
+
 ## Common Problems To Fix
 
 - Missing or mismatched code fences.
@@ -42,6 +49,7 @@ For flowcharts:
 - Node IDs with spaces, punctuation, hyphens, or symbols.
 - Unmatched brackets or quotes.
 - Overly complex diagrams that are hard for beginners to read.
+- ROS 2 node graph diagrams where nodes, topics, services, and launch relationships all look visually identical.
 
 ## Verification Loop
 

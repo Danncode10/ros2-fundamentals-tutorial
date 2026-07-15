@@ -131,7 +131,15 @@ Every lesson plan must include:
 - Be patient and concrete.
 - Use short explanations before commands.
 - Explain what the learner should see after running a command.
+- Use Markdown that previews clearly in GitHub and VS Code: bold key labels, short paragraphs, bullets, tables, and blockquote callouts for student notes or important reminders.
+- Do not rely on colored text, raw HTML styling, or custom Markdown extensions for lesson readability.
+- For beginner ROS 2 architecture diagrams, use the course convention in `Lessons/Dann ROS 2 Graph.md`. Explain that **Dann ROS 2 Graph** is a course convention, not an official ROS 2 standard name.
 - Prefer one small success at a time.
+- Build lessons around learner mental models. When a concept is easy to misunderstand, add a short callout that says what it is, what it is not, and a beginner-safe analogy.
+- Use small student-note style explanations when helpful, especially after vocabulary, diagrams, commands, and verification output.
+- Make mini-projects small enough that the learner still has to design part of the answer. Provide the goal and required parts, but do not always give every connection or final solution.
+- Prefer one tiny scenario per beginner activity, such as a distance stop system, heartbeat diagnostics check, or single sensor publisher.
+- Add a quick "how to read this" explanation after diagrams, command output, or tables.
 - Avoid dumping large code blocks without explanation.
 - Avoid pretending a concept is obvious.
 - Avoid unnecessary theory in beginner lessons.
@@ -181,6 +189,18 @@ Generated actual lessons:
 Lessons/lessons/
 ```
 
+Generated cheat sheets:
+
+```text
+Lessons/cheat-sheet/
+```
+
+Generated quizzes:
+
+```text
+Lessons/quizzes/
+```
+
 Lesson plan filename format:
 
 ```text
@@ -191,6 +211,18 @@ Actual lesson filename format:
 
 ```text
 <Lesson Number> <Title>.md
+```
+
+Cheat sheet filename format:
+
+```text
+<Lesson Number> <Title> Cheat Sheet.md
+```
+
+Quiz filename format:
+
+```text
+<Lesson Number> <Title> Quiz.md
 ```
 
 Use the lesson number exactly as provided by the user when creating filenames.

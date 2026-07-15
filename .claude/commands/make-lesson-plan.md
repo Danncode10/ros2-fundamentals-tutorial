@@ -105,6 +105,7 @@ Include:
 - task
 - success criteria
 - hint
+- what the learner should decide on their own
 
 ## Verification Checks
 
@@ -131,6 +132,8 @@ Include:
 ## Teacher Notes
 
 Guidance for teaching this lesson patiently and clearly.
+
+Include likely learner questions, wrong-but-reasonable interpretations, and where to add short student-note callouts.
 ````
 
 ## Writing Requirements
@@ -141,12 +144,40 @@ Guidance for teaching this lesson patiently and clearly.
 - Mention heavier tools only as future work unless the matched section requires them.
 - Include a simple exercise or mini-project every time.
 - Do not create the full student lesson here. This command creates only the lesson plan.
+- Plan for learner mental models, not just content coverage. For each confusing concept, include how the teacher should explain:
+  - what the concept means;
+  - what it is not;
+  - a tiny rover example;
+  - a beginner-safe analogy or student note.
+- Include likely learner questions or misunderstandings in teacher notes, especially around vocabulary, diagrams, commands, blank command output, and ROS 2 communication patterns.
+- Design mini-projects as small systems with a clear name, goal, required parts, and success criteria. Avoid giving every connection or final answer when the learning goal is design practice.
+- Prefer beginner-sized activities such as "Tiny Distance Stop System", "One Sensor Publisher", "Motor Command Listener", or "Diagnostics Ask-And-Answer" instead of broad rover-wide systems.
+- Include a plan for how the learner will explain their result in one or two minutes.
+- Improve Markdown readability for GitHub and VS Code preview. Use bold labels for key planning labels, teacher notes, and important reminders, such as `**Teacher note:**`, `**Future topic:**`, or `**Success sign:**`.
+- Use Markdown blockquote callouts for important teacher reminders or student-facing notes that should stand apart:
+
+```markdown
+> **Teacher note**
+>
+> <short planning reminder>
+```
+
+- Do not rely on colored text, raw HTML styling, or custom Markdown extensions because they may not render consistently in GitHub or VS Code.
+- Use indentation, short paragraphs, bullets, and tables to make plans easier to scan.
 - Respect student pacing. If the lesson plan mentions a topic that belongs later in `Lessons/README.md`, add a teacher note that gently defers the full explanation to that future lesson or section.
 - Use the `.claude/agents/student-pacing-teacher.md` agent when the plan touches advanced or future topics. If subagents are unavailable, manually apply the same pacing rule: briefly summarize the future topic, name where it will be learned later when possible, and return focus to the current lesson.
 - Use Mermaid Markdown diagrams when they make a concept easier to visualize, especially for ROS 2 node graphs, topic flow, service request/response flow, workspace structure, or lesson sequence. Do not force Mermaid into every lesson plan.
 - Keep Mermaid diagrams simple and compatible with GitHub and VS Code Markdown preview. Prefer `flowchart LR`, `flowchart TD`, or `sequenceDiagram`. Avoid advanced Mermaid features, custom styling, emojis, HTML tags, special symbols, and complicated punctuation in node IDs.
 - In Mermaid flowcharts, use plain ASCII node IDs such as `imu_node`, `motor_node`, and `diagnostics_node`. Put readable text in quoted labels, such as `imu_node["IMU node"]`.
 - Do not put raw parentheses, slashes, colons, or commas inside unquoted Mermaid labels. If punctuation is needed, quote the full label.
+- For each diagram in the plan, include what legend or "how to read this" note the actual lesson should provide.
+- For ROS 2 system architecture diagrams, prefer a consistent visual convention:
+  - read and follow `Lessons/Dann ROS 2 Graph.md`;
+  - call the course convention a **Dann ROS 2 Graph** when teaching beginner ROS 2 architecture diagrams;
+  - explain that it is a course drawing convention, not an official ROS 2 standard name;
+  - include a short legend explaining the shapes and arrow styles.
+- For advanced ROS 2 lesson plans, use optional Dann ROS 2 Graph symbols from `Lessons/Dann ROS 2 Graph.md` only when the lesson actually needs them.
+- Do not force the ROS 2 node/topic/service convention onto non-ROS diagrams. For non-ROS visuals, choose the simplest Mermaid diagram type that explains the idea clearly.
 
 ## Student Pacing Loop
 
