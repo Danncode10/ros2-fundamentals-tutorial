@@ -18,6 +18,7 @@ By the end, the learner should be able to describe the future rover software sta
 - Explain why message passing matters for robot sensors, controllers, and diagnostics.
 - Compare a normal Python script with a ROS 2 program at a high level.
 - Sketch a simple rover software graph using nodes, topics, services, parameters, and launch files.
+- Recognize this kind of drawing as a beginner ROS 2 node graph or ROS 2 system architecture sketch.
 - Identify which parts of the future rover stack will be learned later in the course.
 
 ## Prerequisite Knowledge
@@ -50,6 +51,7 @@ This lesson is low-storage friendly. It does not require installing ROS 2, Gazeb
 - Parameter: a tunable setting for a node.
 - Launch file: a file that starts multiple ROS 2 pieces together.
 - Distributed robotics software: robot behavior built from multiple cooperating programs, which may run in different processes or even on different computers.
+- ROS 2 node graph or system architecture sketch: a diagram that shows nodes, topics, services, and launch relationships before writing code.
 - Why the agricultural rover should start with a small software graph before adding heavier tools later.
 
 ## Commands to Demonstrate
@@ -89,19 +91,48 @@ Do not require the learner to run these commands yet unless ROS 2 is already ins
 
 Use this Mermaid diagram only if it helps the learner visualize the rover as a team of small programs. The learner does not need to memorize the diagram syntax.
 
+This kind of drawing is commonly called a **ROS 2 node graph**, **ROS graph**, or **system architecture sketch**. In professional robotics work, engineers often draw versions of this before building the software so they can reason about which programs exist and how information moves between them.
+
+In this course, use the name **Dann ROS 2 Graph** for the beginner-friendly drawing convention. Make clear that this is a course convention, not an official ROS 2 standard name. The full diagram rulebook is in [Dann ROS 2 Graph](../Dann%20ROS%202%20Graph.md).
+
 ```mermaid
 flowchart LR
-  imu_node["IMU node"] -->|orientation data| navigation_node["Navigation node"]
-  navigation_node -->|motor command| motor_node["Motor node"]
-  arm_controller_node["Arm controller node"] -->|arm command| motor_node
-  diagnostics_node["Diagnostics node"] -.->|status request| imu_node
-  diagnostics_node -.->|status request| motor_node
-  launch_file["Launch file"] -.->|starts| imu_node
+  imu_node["IMU node"]
+  navigation_node["Navigation node"]
+  motor_node["Motor node"]
+  arm_controller_node["Arm controller node"]
+  diagnostics_node["Diagnostics node"]
+  launch_file[["Launch file"]]
+  orientation_topic((("Continuous topic: orientation data")))
+  motor_command_topic(("Topic: motor command"))
+  arm_command_topic(("Topic: arm command"))
+
+  imu_node -->|publishes| orientation_topic
+  orientation_topic -->|subscribes| navigation_node
+  navigation_node -->|publishes| motor_command_topic
+  motor_command_topic -->|subscribes| motor_node
+  arm_controller_node -->|publishes| arm_command_topic
+  arm_command_topic -->|subscribes| motor_node
+
+  diagnostics_node -.->|service request| imu_node
+  imu_node -.->|service response| diagnostics_node
+  diagnostics_node -.->|service request| motor_node
+  motor_node -.->|service response| diagnostics_node
+
+  launch_file -.->|starts| imu_node
   launch_file -.->|starts| motor_node
   launch_file -.->|starts| diagnostics_node
 ```
 
 This is only a teaching sketch. The actual rover graph will change as the learner builds real nodes later in the course.
+
+> **Teacher note**
+>
+> Use this visual convention for ROS 2 diagrams when possible: rectangles are nodes, a double rectangle is a launch file, circles are topics, a double circle is a topic that usually carries continuous data, solid arrows are topic message flow, and dotted arrows are service or launch relationships. This helps learners avoid thinking that topics and services are nodes.
+
+> **Dann ROS 2 Graph rules**
+>
+> Use **rectangles** for nodes because nodes are programs. Use a **double rectangle** for launch files because they start other pieces. Use **circles** for topics because topics are message channels. Use a **double circle** for topics that usually carry continuous data, such as sensor readings. Use **solid arrows** when messages flow through a topic. Use **dotted arrows** for relationships that are not topic streams, such as service requests, service responses, or launch files starting nodes. Label every arrow with the action, such as `publishes`, `subscribes`, `service request`, `service response`, or `starts`.
 
 ## Learner Activities
 
@@ -110,6 +141,7 @@ This is only a teaching sketch. The actual rover graph will change as the learne
 - Draw arrows from sensor publishers to controller subscribers.
 - Mark which connections are continuous data streams and which are request-and-response interactions.
 - Label at least two parameters that might tune rover behavior, such as `max_speed` or `diagnostic_rate`.
+- Explain that robotics engineers often make node graphs or architecture sketches before coding to clarify system design.
 - Discuss which heavy tools are intentionally postponed until after fundamentals.
 
 ## Simple Exercise or Mini-Project
@@ -136,6 +168,7 @@ Create a paper or digital diagram called `rover_software_graph`.
 - Thinking a topic is a command typed in the terminal instead of a named message stream.
 - Assuming advanced tools like Gazebo or Navigation2 are required before learning ROS 2 basics.
 - Treating the rover graph as final architecture instead of a learning sketch that will become clearer over time.
+- Drawing every ROS 2 concept as the same shape, which can make nodes, topics, services, and launch files look like the same kind of thing.
 
 ## Troubleshooting Topics
 

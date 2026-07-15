@@ -131,6 +131,9 @@ Every lesson plan must include:
 - Be patient and concrete.
 - Use short explanations before commands.
 - Explain what the learner should see after running a command.
+- Use Markdown that previews clearly in GitHub and VS Code: bold key labels, short paragraphs, bullets, tables, and blockquote callouts for student notes or important reminders.
+- Do not rely on colored text, raw HTML styling, or custom Markdown extensions for lesson readability.
+- For beginner ROS 2 architecture diagrams, use the course convention in `Lessons/Dann ROS 2 Graph.md`. Explain that **Dann ROS 2 Graph** is a course convention, not an official ROS 2 standard name.
 - Prefer one small success at a time.
 - Avoid dumping large code blocks without explanation.
 - Avoid pretending a concept is obvious.
