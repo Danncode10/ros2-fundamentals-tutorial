@@ -164,6 +164,12 @@ Recommended workflow:
 3. In Ubuntu, use Git to pull, fetch, or switch to the same work.
 4. Run ROS 2 commands and `colcon build` inside Ubuntu.
 
+Companion ROS 2 workspace repo:
+
+```text
+https://github.com/Danncode10/ros2_ws
+```
+
 This is better than building directly inside a shared VM folder because shared folders can sometimes have:
 
 - slower file access;

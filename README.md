@@ -81,9 +81,16 @@ The course targets:
 | ROS 2 | Jazzy |
 | Language | Python |
 | Build tool | colcon |
+| Code sync | Git |
 | Beginner install | ros-jazzy-ros-base |
 
 If you are on a small-storage machine, start with the base install and avoid full desktop robotics stacks at first.
+
+If you edit course files on macOS and test ROS 2 inside Ubuntu, use Git to move code between the two environments. Shared folders are useful for screenshots and quick transfer, but ROS 2 workspaces should be built inside Ubuntu, such as `~/ros2_ws`.
+
+The companion ROS 2 workspace repo is:
+
+[Danncode10/ros2_ws](https://github.com/Danncode10/ros2_ws)
 
 ---
 

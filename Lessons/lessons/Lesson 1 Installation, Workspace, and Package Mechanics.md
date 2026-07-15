@@ -54,6 +54,10 @@ The better workflow is:
 3. In Ubuntu, use Git to pull, fetch, or switch to the same work.
 4. Run ROS 2 commands and tests inside Ubuntu.
 
+The companion workspace repo is:
+
+[Danncode10/ros2_ws](https://github.com/Danncode10/ros2_ws)
+
 The shared folder, such as a Spice client folder, is still useful for quick file transfer, screenshots, and reading notes. But do not make it the main place where you build ROS 2 workspaces.
 
 For beginner ROS 2 practice, keep the actual ROS 2 workspace inside Ubuntu:

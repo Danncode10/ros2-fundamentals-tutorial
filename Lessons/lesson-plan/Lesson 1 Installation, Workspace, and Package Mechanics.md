@@ -66,6 +66,12 @@ Do not require learners to build the ROS 2 workspace inside the shared course fo
 
 **Recommended workflow:** edit lessons on macOS, save work with Git, pull or fetch the same work inside Ubuntu, run ROS 2 commands in the Ubuntu terminal, and build practice packages in `~/ros2_ws`.
 
+Companion ROS 2 workspace repo:
+
+```text
+https://github.com/Danncode10/ros2_ws
+```
+
 Install Git in Ubuntu if needed:
 
 ```bash

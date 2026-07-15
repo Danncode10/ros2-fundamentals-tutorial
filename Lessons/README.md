@@ -188,6 +188,12 @@ Recommended code workflow:
 
 This keeps macOS as the comfortable authoring environment and Ubuntu as the clean ROS 2 testing environment.
 
+Companion ROS 2 workspace repo:
+
+```text
+https://github.com/Danncode10/ros2_ws
+```
+
 For beginner ROS 2 practice, keep the actual ROS 2 workspace simple:
 
 ```bash
