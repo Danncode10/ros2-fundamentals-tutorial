@@ -101,9 +101,21 @@ Use this workflow:
 
 **Package:** A unit of ROS 2 code and metadata. A package is not the same as a node. A package is more like a container where future nodes can live.
 
+> **Student note**
+>
+> A package is like a reusable group, section, or module for related robot code. If you come from web development, it is not only like an outside dependency you install from the internet. It is more like one organized part of your project. The package is the home for related files, and the nodes inside it are the programs that actually run.
+
 **`src/` folder:** The folder inside a workspace where source packages go.
 
+> **Student note**
+>
+> `src` means source. In a ROS 2 workspace, this is where you put the packages you are creating or editing. The workspace root is the garage, and `src/` is the shelf where your package folders live.
+
 **`colcon`:** The build tool commonly used for ROS 2 workspaces.
+
+> **Student note**
+>
+> `colcon build` is kind of like a compiler or build system for your ROS 2 workspace. It usually creates `build/`, `install/`, and `log/`. General ROS 2 commands can still work before this if ROS 2 itself is installed and sourced, but your own new local package needs `colcon build` and `source install/setup.bash` before ROS 2 can discover it properly.
 
 **Build:** To process the packages in the workspace so ROS 2 can use them.
 
@@ -116,6 +128,14 @@ Use this workflow:
 **`package.xml`:** A package metadata file. It describes the package and its dependencies.
 
 **`setup.py`:** A Python packaging file used by Python ROS 2 packages.
+
+> **Student note**
+>
+> `setup.py` tells Python and ROS 2 how this Python package should be installed into the workspace. Later, this file is where we connect a Python node file to a command that can be run with `ros2 run`. For now, just remember that `setup.py` helps turn your package folder into something ROS 2 can use after building.
+
+> **Student note**
+>
+> Every ROS 2 package has a `package.xml`. That file is the main sign that a folder is a ROS 2 package. Python ROS 2 packages usually also have `setup.py`, while C++ ROS 2 packages usually have `CMakeLists.txt` instead. In this beginner course, we start with Python packages, so you will usually see both `package.xml` and `setup.py`.
 
 **Dependency:** Something your package needs. In this lesson, `rover_core` depends on `rclpy`, the Python library used to write ROS 2 nodes.
 
@@ -181,21 +201,37 @@ You will likely see something like:
 
 That is a good place to begin.
 
-## Step 2: Source ROS 2 Jazzy
+## Step 2: Check That ROS 2 Is Sourced
 
-Run:
+In the installation guide, you added this line to `~/.bashrc`:
 
 ```bash
 source /opt/ros/jazzy/setup.bash
 ```
 
-This command tells the current terminal where the system ROS 2 Jazzy installation is.
+That means new terminals should already know where ROS 2 Jazzy is installed.
 
-If it works, it usually prints nothing.
+Check first:
 
-> **Student note**
->
-> Blank output is normal for many `source` commands. No news is often good news.
+```bash
+echo $ROS_DISTRO
+```
+
+Expected output:
+
+```text
+jazzy
+```
+
+If you see `jazzy`, you do not need to manually source ROS 2 again in this terminal.
+
+If the output is blank, run:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+```
+
+This command tells the current terminal where the system ROS 2 Jazzy installation is. If it works, it usually prints nothing.
 
 Now check that the `ros2` command exists:
 
@@ -317,13 +353,23 @@ build  install  log  src
 
 ## Step 6: Source Your Local Workspace
 
+After `colcon build`, your workspace now has an `install/` folder.
+
+Inside that folder is a setup file:
+
+```text
+install/setup.bash
+```
+
+This is the file we source so the current terminal can see packages from this workspace.
+
 Run:
 
 ```bash
 source install/setup.bash
 ```
 
-This tells the current terminal about packages built in this workspace.
+This command means: "Use the setup file inside this workspace's `install/` folder."
 
 Right now, the workspace does not contain your own package yet, but this command is still important. You will use it constantly in ROS 2 development.
 
@@ -350,15 +396,19 @@ cd ~/ros2_ws/src
 Now create a Python ROS 2 package:
 
 ```bash
-ros2 pkg create --build-type ament_python --dependencies rclpy rover_core
+ros2 pkg create rover_core --build-type ament_python --dependencies rclpy
 ```
 
 What this means:
 
 - `ros2 pkg create` creates a new ROS 2 package.
+- `rover_core` is the package name.
 - `--build-type ament_python` makes it a Python package.
 - `--dependencies rclpy` says this package will use `rclpy`.
-- `rover_core` is the package name.
+
+> **Student note**
+>
+> Put the package name before `--dependencies`. The `--dependencies` option can accept more than one dependency, so if `rover_core` comes after `rclpy`, ROS 2 may think `rover_core` is another dependency instead of the package name.
 
 Why `rover_core`?
 
@@ -393,6 +443,16 @@ package.xml  resource  rover_core  setup.cfg  setup.py  test
 ```
 
 Do not worry if the exact order is different.
+
+Example terminal output:
+
+```text
+dann@ubuntu-ros2:~/ros2_ws/src$ ls
+rover_core
+dann@ubuntu-ros2:~/ros2_ws/src$ cd rover_core/
+dann@ubuntu-ros2:~/ros2_ws/src/rover_core$ ls
+package.xml  resource  rover_core  setup.cfg  setup.py  test
+```
 
 ## Step 8: Look at the Important Package Files
 
