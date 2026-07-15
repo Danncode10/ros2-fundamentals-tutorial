@@ -19,6 +19,61 @@ This course will **not** focus on YOLO, Supabase, dashboards, cloud systems, or 
 
 ---
 
+# How to Use This Roadmap
+
+This file is the **lesson plan**, not the finished course content.
+
+Use it as the structure for building the course while learning ROS 2 yourself. Each phase defines what must be learned, practiced, verified, and connected back to the rover project. The detailed lessons should be written one section at a time as you study, test commands, write code, and discover common mistakes.
+
+Good workflow:
+
+1. Study one section.
+2. Write the actual lesson for that section.
+3. Test every command in a clean terminal.
+4. Build the smallest working rover example.
+5. Add troubleshooting notes while the mistakes are fresh.
+6. Add a checkpoint so the learner knows whether they are ready to continue.
+
+Do not rush to write all lessons before testing them. ROS 2 learning is very environment-sensitive, so the course should grow from real terminal practice.
+
+---
+
+# Learner Assumptions
+
+This course assumes the learner:
+
+- Is comfortable using a terminal at a beginner level.
+- Can create folders and edit text files.
+- Knows basic Python syntax:
+  - variables
+  - functions
+  - imports
+  - simple classes
+  - running Python files
+- Understands basic robotics ideas at a high level:
+  - sensors produce data
+  - motors receive commands
+  - a robot needs control logic
+  - debugging matters
+
+This course does **not** assume prior ROS 2 experience.
+
+If the learner is weak in Python, add short Python refreshers before Phase 2. Do not let Python confusion disguise itself as ROS 2 confusion.
+
+---
+
+# Course Development Rule
+
+Because this course is being built while learning the field, every lesson should separate three things:
+
+1. **What ROS 2 concept is being learned**
+2. **What rover behavior it supports**
+3. **How the learner proves it works**
+
+Avoid writing lessons that only explain concepts. Every concept should end with a small working artifact, a terminal check, and a clear pass/fail condition.
+
+---
+
 # Installation Strategy
 
 This course uses a **progressive installation approach**.
@@ -1230,6 +1285,116 @@ Outcome:
 - You combine everything into one simulated rover core system
 - You can explain and debug the full ROS 2 graph
 
+---
+
+# Required Deliverables by Module
+
+Each module should produce something visible, runnable, or explainable. This prevents passive learning.
+
+| Module | Required deliverable |
+|---|---|
+| Module 1 | Working ROS 2 environment, `thesis_ws`, `src/`, successful empty `colcon build` |
+| Module 2 | Runnable `rover_heartbeat` node in minimal and OOP versions |
+| Module 3 | Screenshots or notes proving `ros2 node` and `rqt_graph` were used |
+| Module 4 | Working publisher/subscriber pair, topic echo output, recorded and replayed bag |
+| Module 5 | Working diagnostics service server and client, plus CLI service call |
+| Module 6 | `rover_interfaces` package with custom messages and custom service |
+| Module 7 | Parameterized safety node with live CLI tuning and YAML config |
+| Module 8 | Launch file that starts multiple rover nodes with parameters and remaps |
+| Module 9 | Final rover core system, final graph, explanation of every node/topic/service/parameter |
+
+Each deliverable should be small enough to finish, but complete enough to prove the learner actually understands the concept.
+
+---
+
+# Checkpoints and Assessments
+
+Add a checkpoint at the end of every module.
+
+Each checkpoint should include:
+
+- **Concept check:** Can the learner explain the idea in plain words?
+- **Command check:** Can the learner run the correct ROS 2 CLI commands?
+- **Code check:** Can the learner point to the file that implements the behavior?
+- **Debug check:** Can the learner inspect whether the system is alive?
+- **Rover check:** Can the learner explain how this helps the agricultural rover?
+
+Use short questions, not long exams.
+
+Example checkpoint questions:
+
+- What is the difference between a node and a topic?
+- Why does a ROS 2 terminal need to be sourced?
+- How do you prove that a node is running?
+- When should rover data use a topic instead of a service?
+- Why should IMU tilt use a custom message instead of a plain string?
+- What parameter would you change to make the rover more conservative on slopes?
+
+Passing a module means the learner can run the code, inspect it, and explain it without simply copying commands.
+
+---
+
+# Troubleshooting Notes to Add While Building Lessons
+
+Every lesson should collect beginner mistakes as they happen.
+
+Important troubleshooting categories:
+
+- ROS 2 command not found
+- Forgot to source `/opt/ros/jazzy/setup.bash`
+- Forgot to source `install/setup.bash`
+- Package not found
+- Executable not found
+- `colcon build` fails
+- Python import error
+- Custom message not generated
+- Service call format is wrong
+- Topic exists but no data is flowing
+- rqt_graph is empty or missing expected nodes
+- Parameter set command fails
+- Launch file starts but one node silently fails
+
+Each troubleshooting entry should include:
+
+1. Symptom
+2. Likely cause
+3. Command to inspect the problem
+4. Fix
+5. How to verify the fix worked
+
+This section will become one of the most valuable parts of the course because robotics learning often fails through setup and debugging friction, not through the main concept itself.
+
+---
+
+# Final Project Rubric
+
+The final project is complete when the learner can demonstrate all of these:
+
+| Area | Requirement |
+|---|---|
+| Nodes | All final project nodes run with clear names |
+| Topics | Sensor, motor command, and detection topics publish usable data |
+| Services | Diagnostics service can be called from both CLI and client node |
+| Interfaces | Custom messages and custom service build cleanly |
+| Parameters | Safety limits and heartbeat interval can be changed without editing code |
+| Launch | One launch command starts the rover core system |
+| Debugging | Learner can inspect nodes, topics, services, parameters, and graph |
+| Explanation | Learner can explain the data flow from sensor input to rover decision |
+
+Suggested grading:
+
+- **Pass:** The full system runs, and the learner can explain the main graph.
+- **Strong pass:** The learner can intentionally break and debug one part of the system.
+- **Excellent:** The learner can add one small new rover feature using the same patterns.
+
+Possible extension feature after passing:
+
+- Add fake battery percentage publisher.
+- Add low-battery warning node.
+- Add wheel encoder message.
+- Add a second IMU namespace such as `/front_imu` and `/rear_imu`.
+- Add a launch argument for safe mode.
+
 Still avoid heavy robotics applications unless the final project is intentionally expanded beyond this beginner scope.
 
 Heavy tools belong after this course, when one of these becomes necessary:
@@ -1239,6 +1404,36 @@ Heavy tools belong after this course, when one of these becomes necessary:
 - A robotic arm planning stack is required
 - A camera or AI perception stack is required
 - There is enough disk space to install and maintain the extra packages safely
+
+---
+
+# Topics to Mention but Not Teach Deeply Yet
+
+Some ROS 2 topics are important, but they can overwhelm a beginner if taught too early.
+
+Mention these lightly when they naturally appear:
+
+- **QoS:** ROS 2 has message delivery settings, but beginner lessons can mostly use defaults.
+- **Actions:** Useful for long-running robot goals, but services and topics come first.
+- **Lifecycle nodes:** Useful for managed startup/shutdown, but ordinary nodes come first.
+- **tf2:** Essential for robot coordinate frames, but save deep frame work for a later robotics course.
+- **RViz:** Useful for visualizing robot state, but not required for this ROS 2 core course.
+- **Testing:** Useful for real projects, but first make the learner comfortable running and inspecting nodes manually.
+
+Later course candidates:
+
+- ROS 2 simulation with Gazebo
+- RViz and robot visualization
+- `tf2` coordinate transforms
+- URDF and robot description
+- Navigation2
+- camera pipelines
+- YOLO integration through ROS 2 topics
+- hardware bringup
+- automated tests with `pytest` and launch testing
+- deployment habits for real rover computers
+
+This beginner course should make those later topics easier, not try to absorb them all.
 
 ---
 
