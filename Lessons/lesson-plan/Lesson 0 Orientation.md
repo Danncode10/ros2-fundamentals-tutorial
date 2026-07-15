@@ -1,4 +1,4 @@
-# Phase 0 Orientation
+# Lesson 0 Orientation
 
 ## Source Section
 
@@ -85,6 +85,24 @@ Do not require the learner to run these commands yet unless ROS 2 is already ins
 - No code artifact is created in this lesson.
 - `rover_software_graph` drawing: a paper or digital sketch showing the future rover as a group of communicating nodes.
 
+## Optional Visual Aid
+
+Use this Mermaid diagram only if it helps the learner visualize the rover as a team of small programs. The learner does not need to memorize the diagram syntax.
+
+```mermaid
+flowchart LR
+  imu_node["IMU node"] -->|orientation data| navigation_node["Navigation node"]
+  navigation_node -->|motor command| motor_node["Motor node"]
+  arm_controller_node["Arm controller node"] -->|arm command| motor_node
+  diagnostics_node["Diagnostics node"] -.->|status request| imu_node
+  diagnostics_node -.->|status request| motor_node
+  launch_file["Launch file"] -.->|starts| imu_node
+  launch_file -.->|starts| motor_node
+  launch_file -.->|starts| diagnostics_node
+```
+
+This is only a teaching sketch. The actual rover graph will change as the learner builds real nodes later in the course.
+
 ## Learner Activities
 
 - Explain in their own words why a rover should not be built as one giant program.
@@ -148,3 +166,5 @@ Use the rover analogy often. A beginner may understand "the IMU node reports ori
 Avoid turning this into an installation lesson. If ROS 2 commands are shown, present them as previews of future verification tools. The learner should leave Phase 0 curious and oriented, not overwhelmed by setup details.
 
 Keep heavy tools clearly labeled as future work. Explain that postponing them is a strength of the course because the learner will first build the habits needed to debug a real ROS 2 graph from the terminal.
+
+If a learner asks about deeper topics such as custom messages, launch file details, rqt graphs, Navigation2, Gazebo, MoveIt, Docker, or AI vision, respond respectfully and briefly. A good pattern is: "That's a good question. We will study that properly later, so you do not need to master it yet. For now, the short version is..." Then return to the Phase 0 goal: understanding why ROS 2 uses small programs that communicate.
