@@ -127,6 +127,52 @@ ros-jazzy-rqt-graph
 
 ---
 
+# Low-Storage Learning Path
+
+This course is designed to be friendly to a small-storage computer, including a MacBook Air M1 running Ubuntu in a VM or similar constrained setup.
+
+The beginner path should stay lightweight:
+
+- Use `ros-jazzy-ros-base` first.
+- Use terminal-based ROS 2 commands heavily.
+- Write small Python nodes.
+- Build small workspaces and packages.
+- Use CLI debugging before graphical tools.
+- Add only `rqt` and `rqt_graph` when the graph becomes useful to see visually.
+
+The beginner modules should work without:
+
+- Gazebo / Ignition simulation
+- Navigation2
+- MoveIt
+- Docker images
+- YOLO or AI vision packages
+- large simulation worlds
+- large datasets
+- full desktop robotics stacks
+
+This is not a weakness in the course. It is the intended learning path. ROS 2 fundamentals can be learned very well without heavy graphics or simulation tools.
+
+Storage-friendly learning order:
+
+| Stage | Tools | Why |
+|---|---|---|
+| Early beginner | `ros-jazzy-ros-base`, terminal, Python editor | Learn the ROS 2 communication model clearly |
+| Middle beginner | `rqt`, `rqt_graph` | Visualize nodes and topics without installing full simulation |
+| After fundamentals | optional SSD or larger storage | Prepare for Gazebo, RViz, Nav2, robot models, perception, and larger projects |
+
+Move to heavier tools only when at least one of these is true:
+
+- You can already create and run ROS 2 Python nodes.
+- You understand topics, services, parameters, and launch files.
+- You can debug a small ROS 2 graph from the CLI.
+- You need simulation, visualization, navigation, manipulation, or perception for the next real project.
+- You have enough disk space, such as an external SSD, to install and maintain the larger tools safely.
+
+If storage is tight, do not install `ros-jazzy-desktop` at the start. Begin small, learn the core ideas deeply, and expand later.
+
+---
+
 # Phase 0: Orientation
 
 ## Section 0.1: What ROS 2 Is
