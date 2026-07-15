@@ -12,6 +12,7 @@ Preserve these priorities in all edits:
 - Prefer lightweight, low-storage workflows early in the course.
 - Avoid introducing Gazebo, Navigation2, MoveIt, Docker, YOLO, AI packages, large simulation worlds, or full desktop robotics stacks in beginner lessons unless clearly marked as future work.
 - Write like a patient expert teacher who explains both what to do and why it matters.
+- In conversation or lesson text, if a student asks about a topic that belongs later in `Lessons/README.md`, respond respectfully: acknowledge that it is a good question, say where it will be learned later when possible, give a short beginner-safe summary, and return focus to the current lesson. Never assume every student understands immediately.
 
 The main roadmap is `Lessons/README.md`.
 

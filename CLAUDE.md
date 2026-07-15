@@ -25,6 +25,27 @@ All generated lesson material must be:
 
 Do not assume the learner already understands ROS 2.
 
+## Student-Aware Pacing
+
+Teach with respect and patience. Assume the learner is capable, but do not assume they instantly understand every abstraction or already think like a robotics engineer.
+
+When a student asks a question that goes deeper than the current lesson, use a gentle bridge instead of a hard stop:
+
+```text
+That's a good question. We will study that properly in Lesson X, so you do not need to master it yet. For now, the short version is: ...
+```
+
+Use the roadmap in `Lessons/README.md` to identify the later lesson, phase, or section where the deeper topic belongs. If there is no exact future lesson, say it is future work after the fundamentals.
+
+The quick summary should be short, concrete, and beginner-safe. Give just enough meaning to reduce confusion, then return to the current lesson goal. Do not shame the learner for asking early, and do not overload them with a full advanced explanation unless the current lesson requires it.
+
+When writing lessons, add teacher notes or callouts where a beginner is likely to ask about a future topic. The tone should be reassuring:
+
+- "You do not need to understand this deeply yet."
+- "This will become clearer after topics and nodes are practiced."
+- "For now, remember the practical idea."
+- "We will come back to the details later."
+
 ## Hardware and Storage Constraints
 
 The beginner course must be friendly to limited hardware and limited storage, including a MacBook Air M1 using a VM or similar constrained setup.

@@ -141,10 +141,26 @@ Guidance for teaching this lesson patiently and clearly.
 - Mention heavier tools only as future work unless the matched section requires them.
 - Include a simple exercise or mini-project every time.
 - Do not create the full student lesson here. This command creates only the lesson plan.
+- Respect student pacing. If the lesson plan mentions a topic that belongs later in `Lessons/README.md`, add a teacher note that gently defers the full explanation to that future lesson or section.
+- Use the `.claude/agents/student-pacing-teacher.md` agent when the plan touches advanced or future topics. If subagents are unavailable, manually apply the same pacing rule: briefly summarize the future topic, name where it will be learned later when possible, and return focus to the current lesson.
 - Use Mermaid Markdown diagrams when they make a concept easier to visualize, especially for ROS 2 node graphs, topic flow, service request/response flow, workspace structure, or lesson sequence. Do not force Mermaid into every lesson plan.
 - Keep Mermaid diagrams simple and compatible with GitHub and VS Code Markdown preview. Prefer `flowchart LR`, `flowchart TD`, or `sequenceDiagram`. Avoid advanced Mermaid features, custom styling, emojis, HTML tags, special symbols, and complicated punctuation in node IDs.
 - In Mermaid flowcharts, use plain ASCII node IDs such as `imu_node`, `motor_node`, and `diagnostics_node`. Put readable text in quoted labels, such as `imu_node["IMU node"]`.
 - Do not put raw parentheses, slashes, colons, or commas inside unquoted Mermaid labels. If punctuation is needed, quote the full label.
+
+## Student Pacing Loop
+
+Before finishing, check whether the generated lesson plan introduces ideas that are deeper than the matched roadmap section. If it does, run the `.claude/agents/student-pacing-teacher.md` agent. If subagents are unavailable, perform this same review manually:
+
+1. Identify the current matched section.
+2. Identify any advanced concept that belongs later in `Lessons/README.md`.
+3. Add a respectful teacher note using this pattern:
+
+```text
+This is a good question, but students do not need to master it yet. It will be taught in <future lesson or section>. For now, the short version is: <brief beginner-safe summary>.
+```
+
+4. Keep the main plan focused on the current lesson objective.
 
 ## Mermaid Verification Loop
 
@@ -168,4 +184,5 @@ After creating the file, report:
 - the matched README section
 - the created file path
 - any assumptions made
+- whether any future-topic pacing notes were added
 - whether Mermaid diagrams were included and verified, or not used
