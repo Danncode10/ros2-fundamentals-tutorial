@@ -105,6 +105,7 @@ Include:
 - task
 - success criteria
 - hint
+- what the learner should decide on their own
 
 ## Verification Checks
 
@@ -131,6 +132,8 @@ Include:
 ## Teacher Notes
 
 Guidance for teaching this lesson patiently and clearly.
+
+Include likely learner questions, wrong-but-reasonable interpretations, and where to add short student-note callouts.
 ````
 
 ## Writing Requirements
@@ -141,6 +144,15 @@ Guidance for teaching this lesson patiently and clearly.
 - Mention heavier tools only as future work unless the matched section requires them.
 - Include a simple exercise or mini-project every time.
 - Do not create the full student lesson here. This command creates only the lesson plan.
+- Plan for learner mental models, not just content coverage. For each confusing concept, include how the teacher should explain:
+  - what the concept means;
+  - what it is not;
+  - a tiny rover example;
+  - a beginner-safe analogy or student note.
+- Include likely learner questions or misunderstandings in teacher notes, especially around vocabulary, diagrams, commands, blank command output, and ROS 2 communication patterns.
+- Design mini-projects as small systems with a clear name, goal, required parts, and success criteria. Avoid giving every connection or final answer when the learning goal is design practice.
+- Prefer beginner-sized activities such as "Tiny Distance Stop System", "One Sensor Publisher", "Motor Command Listener", or "Diagnostics Ask-And-Answer" instead of broad rover-wide systems.
+- Include a plan for how the learner will explain their result in one or two minutes.
 - Improve Markdown readability for GitHub and VS Code preview. Use bold labels for key planning labels, teacher notes, and important reminders, such as `**Teacher note:**`, `**Future topic:**`, or `**Success sign:**`.
 - Use Markdown blockquote callouts for important teacher reminders or student-facing notes that should stand apart:
 
@@ -158,6 +170,7 @@ Guidance for teaching this lesson patiently and clearly.
 - Keep Mermaid diagrams simple and compatible with GitHub and VS Code Markdown preview. Prefer `flowchart LR`, `flowchart TD`, or `sequenceDiagram`. Avoid advanced Mermaid features, custom styling, emojis, HTML tags, special symbols, and complicated punctuation in node IDs.
 - In Mermaid flowcharts, use plain ASCII node IDs such as `imu_node`, `motor_node`, and `diagnostics_node`. Put readable text in quoted labels, such as `imu_node["IMU node"]`.
 - Do not put raw parentheses, slashes, colons, or commas inside unquoted Mermaid labels. If punctuation is needed, quote the full label.
+- For each diagram in the plan, include what legend or "how to read this" note the actual lesson should provide.
 - For ROS 2 system architecture diagrams, prefer a consistent visual convention:
   - read and follow `Lessons/Dann ROS 2 Graph.md`;
   - call the course convention a **Dann ROS 2 Graph** when teaching beginner ROS 2 architecture diagrams;
