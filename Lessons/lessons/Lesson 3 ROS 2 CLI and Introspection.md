@@ -12,9 +12,9 @@ A rover can have many small programs running at the same time: one for heartbeat
 
 > Can ROS 2 actually see the node I think is running?
 
-This lesson teaches **introspection**, which means using tools to inspect a running ROS 2 system. You will use terminal commands first, then a lightweight visual tool called `rqt_graph`.
+This lesson teaches **introspection**, which means using tools to inspect a running ROS 2 system. You will use terminal commands first, then you will use a lightweight GUI tool called `rqt_graph`.
 
-This is still a beginner and low-storage lesson. You do not need Gazebo, Navigation2, MoveIt, Docker, YOLO, AI packages, large simulation worlds, or a full desktop robotics stack.
+This is still a beginner and low-storage lesson, but that does not mean avoiding good robotics tools. `rqt_graph` is useful and worth learning. The storage-friendly decision is to install this small graph tool now, while saving heavier tools like Gazebo, Navigation2, MoveIt, Docker, YOLO, AI packages, large simulation worlds, and full desktop robotics stacks for later.
 
 ## Before You Start
 
@@ -42,7 +42,19 @@ You will use multiple terminals in this lesson.
 
 **Introspection:** Looking at a running ROS 2 system using tools. It means asking ROS 2, "What can you see right now?"
 
-**What it is not:** Introspection is not editing code. It is not guessing from memory. It is checking the live system.
+You can do introspection in the terminal with commands such as:
+
+```bash
+ros2 node list
+```
+
+You can also do introspection with a GUI tool such as:
+
+```bash
+rqt_graph
+```
+
+**What it is not:** Introspection is not only a GUI, and it is not only one terminal command. It is the general debugging habit of checking the live ROS 2 system.
 
 **Tiny rover example:** If your rover heartbeat node is supposed to be alive, `ros2 node list` can help prove whether ROS 2 can see it.
 
@@ -58,7 +70,7 @@ You will use multiple terminals in this lesson.
 
 **`rqt`:** A lightweight ROS 2 graphical tool that can load different debugging plugins.
 
-**`rqt_graph`:** A visual tool that shows the ROS graph.
+**`rqt_graph`:** A visual GUI tool that shows the ROS graph.
 
 > **Student note**
 >
@@ -190,15 +202,28 @@ In Terminal 2, run:
 ros2 node info /rover_heartbeat_minimal
 ```
 
-You may see output with headings like:
+> **Important command**
+>
+> `ros2 node info` is one of the most useful beginner debugging commands in ROS 2. It lets you inspect one live node by name instead of only knowing that the node exists.
+
+You may see output like this:
 
 ```text
 /rover_heartbeat_minimal
   Subscribers:
 
   Publishers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
 
   Service Servers:
+    /rover_heartbeat_minimal/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /rover_heartbeat_minimal/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /rover_heartbeat_minimal/get_parameters: rcl_interfaces/srv/GetParameters
+    /rover_heartbeat_minimal/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /rover_heartbeat_minimal/list_parameters: rcl_interfaces/srv/ListParameters
+    /rover_heartbeat_minimal/set_parameters: rcl_interfaces/srv/SetParameters
+    /rover_heartbeat_minimal/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
 
   Service Clients:
 
@@ -210,6 +235,24 @@ You may see output with headings like:
 Your exact output may include extra ROS 2 internal details. That is normal.
 
 **What this proves:** ROS 2 can find the node by name and report runtime information about it.
+
+> **Vibe coding prompt tip**
+>
+> If you ask Codex, Claude, or another AI helper to debug a ROS 2 problem later, paste your `ros2 node list` and `ros2 node info /node_name` output. This shows what ROS 2 actually sees while your system is running, not just what the code looks like.
+
+**How to review this output:**
+
+- `/rover_heartbeat_minimal` means ROS 2 found your live node.
+- `Publishers` shows things this node publishes. `/rosout` is where ROS 2 log messages go.
+- `/parameter_events` and the parameter service servers are built-in ROS 2 parameter support.
+- Empty `Subscribers` means this node is not listening to topic messages yet.
+- Empty `Service Clients`, `Action Servers`, and `Action Clients` are normal for this beginner heartbeat node.
+
+The most important review idea is:
+
+```text
+ROS 2 can see /rover_heartbeat_minimal, so the node is alive.
+```
 
 > **Future topic**
 >
@@ -246,6 +289,14 @@ In Terminal 1, run:
 ```bash
 ros2 run rover_core rover_heartbeat_minimal --ros-args -r __node:=front_rover_heartbeat
 ```
+
+> **Student note**
+>
+> You do not need to memorize this whole command. For now, understand the goal: run the same node with a different runtime name. You can ask Codex, Claude, documentation, or your course notes for the exact remapping syntax when you need it.
+
+> **Student note**
+>
+> Runtime renaming is temporary. It does not rename the Python file, and it does not change `setup.py`. If a node has one permanent job, it is usually clearer to give it a good permanent name in the code and `setup.py`. Runtime renaming is mainly useful for testing, avoiding name conflicts, launch files later, or running two copies of the same executable with different roles.
 
 Leave it running.
 
@@ -402,11 +453,25 @@ rqt_graph
 
 A window should open.
 
+In the `rqt_graph` window:
+
+1. Click the **refresh** button. It looks like circular arrows.
+2. Click the **fit graph in view** button. It looks like arrows pointing outward.
+3. Keep the dropdown on **Nodes only** for this lesson.
+
 Expected success signs:
 
 - You see a graph window.
-- You can see the running heartbeat nodes after the graph refreshes.
-- If the graph looks empty, look for a refresh button and refresh the view.
+- You can see `/front_rover_heartbeat` and `/test_rover_heartbeat` after refreshing.
+- The nodes are centered or easier to see after using **fit graph in view**.
+- If the graph looks empty, click refresh again and confirm the nodes are still running with `ros2 node list`.
+
+<img src="https://github.com/user-attachments/assets/47b93c77-a6d1-42cb-9f5c-795515fd0bb3" />
+
+```text
+Paste or place your rqt_graph screenshot here.
+Example success sign: the graph shows /front_rover_heartbeat and /test_rover_heartbeat.
+```
 
 > **Student note**
 >
@@ -422,10 +487,21 @@ rqt
 
 Inside `rqt`, the graph viewer is one plugin among many. For now, you do not need to explore every plugin.
 
+To open the same graph view from the general `rqt` window:
+
+1. Click **Plugins**.
+2. Click **Introspection**.
+3. Click **Node Graph**.
+4. Click the **refresh** button.
+5. Click **fit graph in view** if the graph is too zoomed in or off-center.
+
+<img src="https://github.com/user-attachments/assets/475822be-95e4-4e2c-b617-d680e867646b" />
+
 The beginner goal is simple:
 
 - know that `rqt_graph` exists;
 - know that it visualizes the ROS graph;
+- know that `rqt_graph` is the direct shortcut, while `rqt` opens the plugin container;
 - know that CLI tools are still important.
 
 > **Future topic**
