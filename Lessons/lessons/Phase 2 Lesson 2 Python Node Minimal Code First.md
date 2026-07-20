@@ -371,6 +371,9 @@ Now inspect the node:
 ros2 node info /rover_heartbeat_minimal
 ```
 
+
+<img width="1429" height="344" alt="Img 1" src="https://github.com/user-attachments/assets/cfa77cd7-22e1-4a7c-b6ed-bf260ea3ce13" />
+
 Expected success signs:
 
 - ROS 2 finds the node.
@@ -448,6 +451,10 @@ After it works, explain your design in one or two minutes:
 - What command runs it?
 - How did you prove ROS 2 could see it?
 
+> **Student note**
+>
+> One way to complete this activity is to prompt Codex or Claude with: "Create a new node named `rover_status_beacon`, register it in `setup.py`, and make it output a message every 2 seconds with the keyword `status`." After generating the code, build with `colcon build`, source with `source install/setup.bash`, run `ros2 run rover_core rover_status_beacon`, and verify it with `ros2 node list`.
+
 ## Recap
 
 - A ROS 2 node is a running program with a focused job.
@@ -465,3 +472,19 @@ After it works, explain your design in one or two minutes:
 - What does `source install/setup.bash` do after a build?
 - How can you prove a node is alive using ROS 2 CLI?
 - Why does this lesson avoid classes even though many ROS 2 nodes use classes?
+
+## What We Just Did
+
+In this lesson, you practiced the full beginner workflow for creating and running a ROS 2 Python node.
+
+1. **Create the node file:** You created a Python file inside the package's Python folder, such as `~/ros2_ws/src/rover_core/rover_core/rover_heartbeat_minimal.py`.
+2. **Write or generate the node code:** You wrote the `rclpy` code yourself or used an AI prompt to generate a small node that logs a message every second.
+3. **Register the node command:** You edited `setup.py` so `ros2 run` knows which Python function to start.
+4. **Build the workspace:** You ran `colcon build` from `~/ros2_ws` so ROS 2 prepares the updated package.
+5. **Source the workspace:** You ran `source install/setup.bash` so the current terminal can find the newly built command.
+6. **Run the node:** You used `ros2 run rover_core rover_heartbeat_minimal` or `ros2 run rover_core rover_status_beacon`.
+7. **Verify the node:** You used `ros2 node list` in another sourced terminal to prove ROS 2 could see the running node.
+
+> **Student note**
+>
+> The short pattern is: create the node file, register it in `setup.py`, build, source, run, then verify. If something does not work, check those steps in that order.
