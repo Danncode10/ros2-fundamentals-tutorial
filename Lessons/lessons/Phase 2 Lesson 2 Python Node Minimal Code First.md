@@ -297,6 +297,8 @@ Run the node:
 ros2 run rover_core rover_heartbeat_minimal
 ```
 
+<img width="989" height="237" alt="Screenshot 2026-07-20 at 4 36 42 PM" src="https://github.com/user-attachments/assets/d9b4c396-ebfe-46d8-a429-2775f399487d" />
+
 Expected output will look similar to this:
 
 ```text
