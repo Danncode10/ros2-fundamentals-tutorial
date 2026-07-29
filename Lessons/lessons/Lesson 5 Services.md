@@ -4,6 +4,16 @@
 
 By the end of this lesson, you will be able to create a ROS 2 service server, call it from the command line, call it from Python, and explain when a service is a better fit than a topic.
 
+> **Student note**
+>
+> **Topic:** continuous stream
+>
+> Example: IMU keeps publishing tilt data every second.
+>
+> **Service:** request and response
+>
+> Example: a diagnostics client asks, "Run diagnostics now," and the diagnostics server replies, "Battery OK, motors OK, IMU OK."
+
 ## Why This Matters
 
 In Lesson 4, you used **topics** for repeated fake IMU tilt data. That is perfect for information that keeps flowing again and again.
@@ -29,6 +39,7 @@ You need:
 - Basic comfort running ROS 2 Python nodes.
 - Two terminals; a third terminal is helpful for inspection.
 - A text editor such as `nano`, VS Code, or another editor you like.
+- The small `example_interfaces` package. Step 1 shows how to install it if your lightweight ROS 2 setup does not already have it.
 
 Each terminal that uses ROS 2 needs to be sourced:
 
@@ -95,6 +106,27 @@ Open a terminal:
 source /opt/ros/jazzy/setup.bash
 ros2 interface show example_interfaces/srv/Trigger
 ```
+
+> **Important**
+>
+> `ros2 interface show <interface_type>` shows the **format of what the service request and response must look like**. It does not run the service. It only shows the data shape that the client and server must follow.
+
+If you see this error:
+
+```text
+Unknown package 'example_interfaces'
+```
+
+install the small ROS 2 interface package:
+
+```bash
+sudo apt update
+sudo apt install ros-jazzy-example-interfaces
+source /opt/ros/jazzy/setup.bash
+ros2 interface show example_interfaces/srv/Trigger
+```
+
+This can happen with lightweight ROS 2 installations. It does not mean your workspace is broken. It only means this built-in example service interface is not installed yet.
 
 Expected output:
 
@@ -178,9 +210,17 @@ if __name__ == '__main__':
 
 > **Student note**
 >
+> Overall, this code creates a small ROS 2 program named `diagnostics_server`. Its job is to sit and wait until something asks the `/run_diagnostics` service for a diagnostic check. When a request arrives, it answers with `success=True` and the message `"Battery OK, motors OK, IMU OK"`. In plain words: this is a tiny robot help desk that waits for the question "Can you run diagnostics?" and replies with a simple status report.
+
+> **Vibe coding note**
+>
+> To ask a coding AI for this kind of node, describe the service pattern clearly: "Write a ROS 2 Python service server node named `diagnostics_server`. It should use `example_interfaces/srv/Trigger`, offer a service named `/run_diagnostics`, and when called, respond with `success=True` and the message `Battery OK, motors OK, IMU OK`. Keep the code beginner-friendly and include the `main()` function."
+
+> **Student note**
+>
 > The `request` variable is not used in this example because `Trigger` has an empty request. That is okay. The server still receives a request event, then fills in the response.
 
-## Step 3: Register the Server and Build
+## Step 3: Register the Server Dependency and Build
 
 Open `setup.py`:
 
@@ -194,6 +234,24 @@ Inside the existing `console_scripts` list, add this line. Keep your earlier ent
 ```python
 'diagnostics_server = rover_core.diagnostics_server:main',
 ```
+
+Now open `package.xml`:
+
+```bash
+nano package.xml
+```
+
+Add this dependency near the other dependency lines:
+
+```xml
+<exec_depend>example_interfaces</exec_depend>
+```
+
+This tells ROS 2 that `rover_core` needs `example_interfaces` when these diagnostics nodes run.
+
+> **Student note**
+>
+> We edit `package.xml` so the package honestly lists what it needs. Since the code imports `Trigger` from `example_interfaces`, the package should declare `example_interfaces` as a dependency.
 
 Build only `rover_core`:
 
@@ -222,6 +280,8 @@ Expected output:
 ```text
 [INFO] ... Diagnostics service is ready.
 ```
+
+<img src="https://github.com/user-attachments/assets/78aee7b9-2ca1-4296-a7e8-182864e5d74f" />
 
 Leave this terminal running. The service only exists while the server node is alive.
 
@@ -258,6 +318,8 @@ ros2 service list
 
 Expected success sign: `/run_diagnostics` appears. You will also see built-in services such as parameter services. That is normal.
 
+<img src="https://github.com/user-attachments/assets/8ff6045d-186b-4c55-9471-830a94f6d704" />
+
 Ask ROS 2 for the service type:
 
 ```bash
@@ -271,6 +333,10 @@ example_interfaces/srv/Trigger
 ```
 
 This proves that `/run_diagnostics` is using the same `Trigger` service type you inspected earlier.
+
+> **Important**
+>
+> `ros2 service type <service_name>` tells you what request and response format a service uses. Tiny mental model: `/run_diagnostics` is the service phone number, and `example_interfaces/srv/Trigger` is the form both sides must use.
 
 ## Step 6: Call the Service from the Command Line
 
@@ -562,7 +628,8 @@ That disappearing service is useful evidence. It proves the service belongs to t
 | `/run_diagnostics` does not appear | Server is not running or crashed | Start the server in a sourced terminal | `ros2 service list` shows `/run_diagnostics` |
 | CLI call complains about the type | Service type was mistyped | Run `ros2 service type /run_diagnostics` and copy the exact type | The call uses `example_interfaces/srv/Trigger` |
 | Client waits forever | Server is not running or service name does not match | Start the server and confirm the service name | Client stops waiting and prints the response |
-| Python import error mentions `example_interfaces` | ROS 2 environment is not sourced or package install is broken | Source `/opt/ros/jazzy/setup.bash` and rebuild if needed | `ros2 interface show example_interfaces/srv/Trigger` works |
+| `Unknown package 'example_interfaces'` | The small example interface package is not installed | Run `sudo apt update` and `sudo apt install ros-jazzy-example-interfaces` | `ros2 interface show example_interfaces/srv/Trigger` works |
+| Python import error mentions `example_interfaces` | ROS 2 environment is not sourced, dependency is missing, or package install is broken | Source `/opt/ros/jazzy/setup.bash`, install `ros-jazzy-example-interfaces`, and rebuild if needed | `ros2 interface show example_interfaces/srv/Trigger` works |
 | `rqt_graph` does not show the client | The client finishes quickly | Use CLI checks as the main proof | `ros2 service call` and client output succeed |
 
 ## Simple Exercise or Mini-Project
