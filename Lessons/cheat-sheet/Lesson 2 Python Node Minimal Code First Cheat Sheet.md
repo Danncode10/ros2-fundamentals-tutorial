@@ -1,69 +1,49 @@
 # Lesson 2 Python Node Minimal Code First Cheat Sheet
 
-## Lesson Reminder
+## Main Idea
 
-Create one tiny Python node, register it in `setup.py`, build, run, and verify it is alive.
+Create one Python node, register it in `setup.py`, build, run, and prove it is alive.
 
-## Commands
+## File Commands
 
-```bash
-echo $ROS_DISTRO
-source /opt/ros/jazzy/setup.bash
-cd ~/ros2_ws
-ls src/rover_core
-```
+| Command | What it means | Use it when | Good sign |
+|---|---|---|---|
+| `cd ~/ros2_ws` | Move to the workspace root. | Before checking or building. | `pwd` ends in `ros2_ws`. |
+| `ls src/rover_core` | Show the package folder contents. | Checking Lesson 1 is ready. | You see `package.xml` and `setup.py`. |
+| `cd ~/ros2_ws/src/rover_core/rover_core` | Move into the Python module folder. | Before creating the node file. | You are inside the inner `rover_core` folder. |
+| `nano rover_heartbeat_minimal.py` | Open/create the Python node file. | Writing the heartbeat node. | File saves successfully. |
+| `cd ~/ros2_ws/src/rover_core && nano setup.py` | Open the package setup file. | Registering the node command. | Console script line is added. |
 
-- Check ROS 2 and confirm the package exists.
+## Build And Run Commands
 
-```bash
-cd ~/ros2_ws/src/rover_core/rover_core
-nano rover_heartbeat_minimal.py
-```
+| Command | What it means | Use it when | Good sign |
+|---|---|---|---|
+| `colcon build --packages-select rover_core` | Build only the `rover_core` package. | After editing node code or `setup.py`. | `Finished <<< rover_core`. |
+| `source install/setup.bash` | Refresh this terminal with the built package. | After every build. | No error; usually no output. |
+| `ros2 run rover_core rover_heartbeat_minimal` | Run the registered heartbeat node. | Starting the node. | Heartbeat logs repeat. |
+| `ros2 node list` | Ask ROS 2 which nodes are alive. | Verifying from another terminal. | `/rover_heartbeat_minimal` appears. |
+| `ros2 node info /rover_heartbeat_minimal` | Ask ROS 2 for details about that node. | Inspecting the live node. | Node information prints. |
 
-- Create the node file.
-
-```bash
-cd ~/ros2_ws/src/rover_core
-nano setup.py
-```
-
-- Register the console script.
+## Setup.py Line
 
 ```python
 'rover_heartbeat_minimal = rover_core.rover_heartbeat_minimal:main',
 ```
 
-- Command name = Python module path + `main`.
-
-```bash
-cd ~/ros2_ws
-colcon build --packages-select rover_core
-source install/setup.bash
-ros2 run rover_core rover_heartbeat_minimal
-```
-
-- Build, source, and run the heartbeat node.
-
-```bash
-ros2 node list
-ros2 node info /rover_heartbeat_minimal
-```
-
-- Verify ROS 2 can see the running node.
+- This means: command name = Python file path + `main()` function.
 
 ## Tiny Terms
 
-| Word | Quick meaning |
+| Term | Meaning |
 |---|---|
-| Node | Running ROS 2 program |
-| `rclpy` | Python library for ROS 2 nodes |
-| Logger | ROS 2-style print |
-| Spin | Keeps node processing work |
-| Console script | Command used by `ros2 run` |
-| `setup.py` | Registers Python commands |
+| Node | Running ROS 2 program. |
+| `rclpy` | Python library for ROS 2 nodes. |
+| Logger | ROS 2-friendly print. |
+| Spin | Keeps a node alive and processing. |
+| Console script | Command that `ros2 run` can start. |
 
 ## Remember
 
-- Pattern: create file, register, build, source, run, verify.
-- Package: `rover_core`; node: `rover_heartbeat_minimal`.
-- If `ros2 run` cannot find it, check `setup.py`, rebuild, then source.
+- Workflow: create file, register, build, source, run, verify.
+- Package = `rover_core`; node = `rover_heartbeat_minimal`.
+- If `ros2 run` fails, check `setup.py`, rebuild, and source again.

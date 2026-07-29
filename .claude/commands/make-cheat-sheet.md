@@ -1,11 +1,11 @@
 ---
-description: Create a command-first ROS 2 cheat sheet for a lesson.
+description: Create a short ROS 2 command cheat sheet with clear command definitions.
 argument-hint: <Lesson Number>
 ---
 
 # /make-cheat-sheet
 
-Create a short command cheat sheet for the requested lesson number.
+Create a short cheat sheet for the requested lesson number. The cheat sheet must focus on commands, but every command must have a clear beginner definition.
 
 User argument:
 
@@ -43,48 +43,46 @@ Use the lesson number exactly as requested by the user. Use a short, readable ti
 
 ## Required Output File Structure
 
-The generated cheat sheet must be very short and command-first. It is **not** a mini-lesson. It should help the learner remember what to type and what each command proves.
+The generated cheat sheet must be short, practical, and command-focused. It must not become a full lesson, but it also must not list commands without explaining them.
 
 ````markdown
 # <Lesson Number> <Lesson Title> Cheat Sheet
 
-## Lesson Reminder
+## Main Idea
 
-- <one sentence only>
+<one short sentence about what the lesson teaches>
 
 ## Commands
 
-```bash
-<command>
-```
-
-- <what this command does or proves in one short phrase>
+| Command | What it means | Use it when | Good sign |
+|---|---|---|---|
+| `<command>` | <plain-English definition> | <when to type it> | <what success looks like> |
 
 ## Tiny Terms
 
-| Word | Quick meaning |
+| Term | Meaning |
 |---|---|
-| <term> | <short meaning> |
+| <term> | <short beginner meaning> |
 
 ## Remember
 
-- <one key warning or success sign>
-- <one key warning or success sign>
+- <one key warning or habit>
+- <one key warning or habit>
 ````
 
 ## Writing Requirements
 
-- Keep the cheat sheet short enough to review quickly while the terminal is open.
-- Do not create a full lesson or detailed explanation.
-- Prefer commands over explanations.
+- Keep the cheat sheet short enough to review while the terminal is open.
+- Do not create a full lesson, recap, or troubleshooting guide.
+- Every command must have a definition: what the command means, not only what it checks.
+- Prefer tables for command definitions.
 - Include only commands that appear in the source lesson or are directly required by it.
 - Include only the most important vocabulary, usually 3 to 8 terms.
+- Keep command definitions short, concrete, and beginner-friendly.
 - Avoid diagrams unless the lesson has no real commands, such as Lesson 0.
 - Avoid self-check questions unless the user explicitly asks for study questions.
 - Avoid long code blocks. Use file names and console script lines only when the lesson depends on remembering them.
-- Keep most command explanations to one line.
-- Keep the whole cheat sheet roughly 30 to 80 lines. If a lesson has many commands, group related commands in one code block.
-- Use beginner-friendly language.
+- Keep the whole cheat sheet roughly 30 to 90 lines. If a command table gets too wide, split it into two smaller tables.
 - Keep storage and beginner constraints in mind.
 - Mention heavy tools only if the lesson itself mentions them as future work.
 - Avoid adding new concepts that are not in the lesson, lesson plan, or roadmap section.

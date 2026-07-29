@@ -1,35 +1,31 @@
 # Lesson 0 Orientation Cheat Sheet
 
-## Lesson Reminder
+## Main Idea
 
-ROS 2 helps small robot programs communicate instead of building one giant rover script.
+ROS 2 helps small robot programs communicate instead of making one giant rover script.
 
-## Commands
+## Preview Commands
 
-Preview only. You do not need ROS 2 installed yet.
-
-```bash
-ros2 node list
-ros2 topic list
-ros2 service list
-ros2 param list
-```
-
-- Later these will show live nodes, topics, services, and parameters.
+| Command | What it means | Use it when | Good sign |
+|---|---|---|---|
+| `ros2 node list` | Ask ROS 2 which programs are running right now. | Later, when checking live nodes. | Node names appear. |
+| `ros2 topic list` | Ask ROS 2 which message channels exist right now. | Later, when checking data streams. | Topic names appear. |
+| `ros2 service list` | Ask ROS 2 which request-response tools are available. | Later, when checking services. | Service names appear. |
+| `ros2 param list` | Ask ROS 2 which node settings are visible. | Later, when checking parameters. | Parameter names appear. |
 
 ## Tiny Terms
 
-| Word | Quick meaning |
+| Term | Meaning |
 |---|---|
-| ROS 2 | Tools and patterns for robot software |
-| Node | One small program with one job |
-| Topic | Ongoing stream of messages |
-| Service | Ask once, answer once |
-| Parameter | Setting for a node |
-| Launch file | Starts several nodes together |
+| ROS 2 | Tools and patterns for robot software. |
+| Node | One small program with one job. |
+| Topic | Ongoing stream of messages. |
+| Service | One request and one response. |
+| Parameter | A setting for a node. |
+| Launch file | Starts several nodes together. |
 
 ## Remember
 
 - Topic = continuous stream.
-- Service = request and response.
+- Service = ask once, answer once.
 - Heavy tools like Gazebo, Nav2, MoveIt, Docker, and AI vision come later.
