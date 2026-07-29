@@ -1,102 +1,66 @@
 # Lesson 1 Installation, Workspace, and Package Mechanics Cheat Sheet
 
-## Big Picture
+## Lesson Reminder
 
-- `ros2_ws` is your ROS 2 learning workspace.
-- Packages go inside `src/`; generated folders come from `colcon build`.
-- Build, source, then verify that ROS 2 can see your package.
+Create `~/ros2_ws`, create the `rover_core` Python package, build it, source it, and prove ROS 2 can see it.
 
-## Must Remember
-
-- `source /opt/ros/jazzy/setup.bash` loads the system ROS 2 install.
-- `source install/setup.bash` loads your local workspace after building.
-- `colcon build` prepares workspace packages and creates `build/`, `install/`, and `log/`.
-- `package.xml` marks a folder as a ROS 2 package.
-- Python ROS 2 packages usually include `setup.py`.
-
-## Key Words
-
-| Word | Quick meaning |
-|---|---|
-| Workspace | Folder where ROS 2 packages are built together |
-| `src/` | Source folder where package folders live |
-| Package | Organized home for related ROS 2 code and future nodes |
-| Node | A running ROS 2 program; learned properly in Phase 2 |
-| `colcon` | Tool that builds ROS 2 workspaces |
-| `build/` | Temporary build work |
-| `install/` | Built package files ROS 2 can discover |
-| `log/` | Build logs and error history |
-| `package.xml` | ROS 2 package identity and dependency file |
-| `setup.py` | Python package install and future run-command setup |
-| Dependency | Something your package needs, such as `rclpy` |
-
-## Tiny Diagram Or Mental Model
-
-```text
-ros2_ws/
-├── src/
-│   └── rover_core/
-├── build/    generated
-├── install/  generated
-└── log/      generated
-```
-
-Mental model:
-
-```text
-src/ -> colcon build -> install/ -> source install/setup.bash -> ROS 2 can find package
-```
-
-## Commands To Recognize
+## Commands
 
 ```bash
 echo $ROS_DISTRO
+source /opt/ros/jazzy/setup.bash
+ros2 --help
 ```
 
-- Checks whether ROS 2 Jazzy is already sourced.
-
-```bash
-ros2 pkg list
-```
-
-- Lists packages visible to the current terminal.
+- Check ROS 2 Jazzy and load it if needed.
 
 ```bash
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws
-```
-
-- Creates and enters the workspace root.
-
-```bash
 colcon build
-```
-
-- Builds the workspace and creates `build/`, `install/`, and `log/`.
-
-```bash
 source install/setup.bash
 ```
 
-- Sources the local workspace from the generated `install/` folder.
+- Create, build, and source the empty workspace.
 
 ```bash
+cd ~/ros2_ws/src
 ros2 pkg create rover_core --build-type ament_python --dependencies rclpy
 ```
 
-- Creates the first Python ROS 2 package.
+- Create the first Python package.
+
+```bash
+cd ~/ros2_ws
+colcon build
+source install/setup.bash
+```
+
+- Rebuild after adding `rover_core`, then source again.
 
 ```bash
 ros2 pkg list | grep rover_core
 ros2 pkg prefix rover_core
+ls ~/ros2_ws
+ls ~/ros2_ws/src/rover_core
 ```
 
-- Verifies that ROS 2 can see and locate `rover_core`.
+- Verify the package is visible and the workspace folders exist.
 
-## Quick Self-Check
+## Tiny Terms
 
-- Can I explain why `ros2_ws` has a `src/` folder?
-- Can I explain what `colcon build` creates?
-- Can I explain why I source `install/setup.bash` after building?
-- Can I tell the difference between a package and a node?
-- Can I prove that ROS 2 can see `rover_core`?
+| Word | Quick meaning |
+|---|---|
+| Workspace | Folder where ROS 2 packages are built |
+| `src/` | Source packages go here |
+| Package | Container for related ROS 2 code |
+| `colcon` | Build tool |
+| Source | Load setup into this terminal |
+| `package.xml` | Package metadata |
+| `setup.py` | Python package setup |
+
+## Remember
+
+- Build from `~/ros2_ws`, not from `~/ros2_ws/src`.
+- Source after every build: `source install/setup.bash`.
+- Do not edit `build/`, `install/`, or `log/`.
